@@ -1,7 +1,7 @@
 import { NavLink, Outlet } from 'react-router-dom'
 import { Container, Row, Col, Nav } from 'react-bootstrap'
 
-// TODO (Phase 3): replace with the real Sidebar/Offcanvas layout
+// Temporary dashboard navigation
 function DashboardLayout() {
   return (
     <Container fluid className="py-4">
@@ -19,6 +19,9 @@ function DashboardLayout() {
             </Nav.Link>
             <Nav.Link as={NavLink} to="/dashboard/users">
               Users
+            </Nav.Link>
+            <Nav.Link as={NavLink} to="/">
+              Store
             </Nav.Link>
           </Nav>
         </Col>

@@ -1,7 +1,7 @@
 import { NavLink, Link, Outlet } from 'react-router-dom'
 import { Navbar, Nav, Container } from 'react-bootstrap'
 
-// TODO (Phase 3): replace with the real Navbar + Footer
+// Temporary navigation for testing the routes
 function StoreLayout() {
   return (
     <>
