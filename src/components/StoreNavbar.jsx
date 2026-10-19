@@ -1,7 +1,26 @@
-import { NavLink, Link } from 'react-router-dom'
+import { NavLink, Link, useSearchParams, useNavigate, useLocation } from 'react-router-dom'
 import { Navbar, Nav, Container } from 'react-bootstrap'
 
 function StoreNavbar() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const location = useLocation()
+  const navigate = useNavigate()
+
+  const currentSearch = searchParams.get('search') || ''
+
+  function handleSearchChange(e) {
+    const value = e.target.value
+    if (location.pathname === '/products') {
+      if (value) {
+        setSearchParams({ search: value })
+      } else {
+        setSearchParams({})
+      }
+    } else {
+      navigate(`/products?search=${encodeURIComponent(value)}`)
+    }
+  }
+
   return (
     <Navbar expand="lg" className="store-navbar">
       <Container>
@@ -23,6 +42,18 @@ function StoreNavbar() {
               Categories
             </Nav.Link>
           </Nav>
+
+          <div className="store-search-wrapper me-3">
+            <span className="store-search-icon" aria-hidden="true">🔍</span>
+            <input
+              type="search"
+              placeholder="Search products..."
+              value={currentSearch}
+              onChange={handleSearchChange}
+              className="store-search-input"
+              aria-label="Search products"
+            />
+          </div>
 
           <div className="store-nav-icons">
             <NavLink to="/cart" className="store-icon-link" aria-label="Cart">

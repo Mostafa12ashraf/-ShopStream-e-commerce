@@ -4,17 +4,25 @@ import { Card } from 'react-bootstrap'
 function ProductCard({ product }) {
   const { id, title, description, price, rating, thumbnail, discountPercentage } = product
 
-  // Show discount badge and crossed-out original price when discount is meaningful
-  const hasDiscount = discountPercentage && discountPercentage >= 5
+  // Calculate original price only when a real discount exists
+  const hasDiscount = discountPercentage && discountPercentage > 0
   const originalPrice = hasDiscount
     ? (price / (1 - discountPercentage / 100)).toFixed(2)
     : null
 
+  // Show "NEW" badge on top-rated items without a discount to match Figma
+  const isNew = !hasDiscount && rating >= 4.8
+
   return (
     <Card className="product-card h-100">
       {hasDiscount && (
-        <span className="product-badge">
+        <span className="product-badge product-badge--discount">
           -{Math.round(discountPercentage)}%
+        </span>
+      )}
+      {isNew && (
+        <span className="product-badge product-badge--new">
+          NEW
         </span>
       )}
 
@@ -44,7 +52,7 @@ function ProductCard({ product }) {
               <span className="product-original-price">${originalPrice}</span>
             )}
           </div>
-          {/* onClick will be connected to Cart in a later phase */}
+          {/* Cart integration will be added in the Cart phase */}
           <button type="button" className="btn btn-primary btn-add">
             🛒 Add
           </button>

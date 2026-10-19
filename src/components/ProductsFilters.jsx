@@ -1,7 +1,7 @@
 import { Form } from 'react-bootstrap'
 
 function ProductsFilters({
-  categories,
+  categoryGroups,
   brands,
   selectedCategory,
   selectedBrand,
@@ -14,20 +14,22 @@ function ProductsFilters({
   onMinRatingChange,
   onClearFilters,
 }) {
+  const groups = categoryGroups ? Object.keys(categoryGroups) : []
+
   return (
     <aside className="products-filters">
       {/* CATEGORY */}
       <div className="filter-section">
         <p className="filter-heading">CATEGORY</p>
-        {categories.map((category) => (
+        {groups.map((group) => (
           <Form.Check
-            key={category}
+            key={group}
             type="checkbox"
-            id={`category-${category}`}
-            label={category}
-            checked={selectedCategory === category}
+            id={`category-${group}`}
+            label={group}
+            checked={selectedCategory === group}
             onChange={() =>
-              onCategoryChange(selectedCategory === category ? '' : category)
+              onCategoryChange(selectedCategory === group ? '' : group)
             }
             className="filter-option"
           />
@@ -37,12 +39,6 @@ function ProductsFilters({
       {/* PRICE RANGE */}
       <div className="filter-section">
         <p className="filter-heading">PRICE RANGE</p>
-        <div className="d-flex justify-content-between mb-2">
-          <small className="text-muted">$0</small>
-          <small className="text-muted">
-            ${maxPrice >= priceLimit ? `${priceLimit.toLocaleString()}+` : maxPrice.toLocaleString()}
-          </small>
-        </div>
         <Form.Range
           min={0}
           max={priceLimit}
@@ -50,9 +46,11 @@ function ProductsFilters({
           onChange={(e) => onMaxPriceChange(Number(e.target.value))}
           aria-label="Maximum price filter"
         />
-        <div className="d-flex justify-content-between">
+        <div className="d-flex justify-content-between mt-1">
           <small className="text-muted">$0</small>
-          <small className="text-muted">${priceLimit.toLocaleString()}+</small>
+          <small className="text-muted">
+            ${maxPrice >= priceLimit ? `${priceLimit.toLocaleString()}+` : maxPrice.toLocaleString()}
+          </small>
         </div>
       </div>
 
@@ -74,7 +72,13 @@ function ProductsFilters({
             type="radio"
             id={`rating-${r}`}
             name="rating-filter"
-            label={`${'★'.repeat(r)}${'☆'.repeat(5 - r)} & Up`}
+            label={
+              <span>
+                <span className="rating-stars-green">{'★'.repeat(r)}</span>
+                <span className="rating-stars-muted">{'☆'.repeat(5 - r)}</span>
+                {' & Up'}
+              </span>
+            }
             checked={minimumRating === r}
             onChange={() => onMinRatingChange(r)}
             className="filter-option"
@@ -102,7 +106,7 @@ function ProductsFilters({
 
       <button
         type="button"
-        className="btn btn-outline-secondary w-100 mt-2"
+        className="btn btn-clear-filters w-100 mt-2"
         onClick={onClearFilters}
       >
         Clear Filters
