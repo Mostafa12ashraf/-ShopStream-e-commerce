@@ -3,9 +3,9 @@ import { Card } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
 import { addToCart } from '../redux/cartSlice'
 
-function ProductCard({ product }) {
+function ProductCard({ product, variant = 'default' }) {
   const dispatch = useDispatch()
-  const { id, title, description, price, rating, thumbnail, discountPercentage } = product
+  const { id, title, description, price, rating, thumbnail, discountPercentage, category } = product
 
   // Calculate original price only when a real discount exists
   const hasDiscount = discountPercentage && discountPercentage > 0
@@ -15,9 +15,62 @@ function ProductCard({ product }) {
 
   // Show "NEW" badge on top-rated items without a discount to match Figma
   const isNew = !hasDiscount && rating >= 4.8
+  const isBestSeller = rating >= 4.5
 
-  function handleAddToCart() {
+  function handleAddToCart(e) {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
     dispatch(addToCart({ product, quantity: 1 }))
+  }
+
+  // Home page variant matching Figma Featured Products card
+  if (variant === 'home') {
+    return (
+      <Card className="product-card product-card--home h-100">
+        <Link to={`/products/${id}`} className="product-img-box position-relative">
+          {isBestSeller ? (
+            <span className="product-badge product-badge--bestseller">
+              BEST SELLER
+            </span>
+          ) : isNew ? (
+            <span className="product-badge product-badge--new-pill">
+              NEW
+            </span>
+          ) : null}
+
+          <img
+            src={thumbnail}
+            alt={title}
+            className="product-img-home"
+          />
+        </Link>
+
+        <Card.Body className="p-3 d-flex flex-column">
+          <span className="product-category-tag">
+            {category ? category.replace(/-/g, ' ').toUpperCase() : 'TECH'}
+          </span>
+
+          <Link to={`/products/${id}`} className="product-title-link mb-2">
+            <h6 className="product-title-home mb-0" title={title}>{title}</h6>
+          </Link>
+
+          <div className="d-flex justify-content-between align-items-center mt-auto pt-2">
+            <span className="product-price-home">${price.toFixed(2)}</span>
+            <button
+              type="button"
+              className="btn-home-cart"
+              onClick={handleAddToCart}
+              aria-label={`Add ${title} to cart`}
+              title="Add to cart"
+            >
+              🛒+
+            </button>
+          </div>
+        </Card.Body>
+      </Card>
+    )
   }
 
   return (
@@ -71,5 +124,6 @@ function ProductCard({ product }) {
     </Card>
   )
 }
+
 
 export default ProductCard

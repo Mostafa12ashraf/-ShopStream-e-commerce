@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import { Form, Button, Alert, Spinner } from 'react-bootstrap'
+import { Form, Button, Alert, Spinner, Row, Col } from 'react-bootstrap'
 import './Auth.css'
 
 function Register() {
@@ -13,6 +13,7 @@ function Register() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [showPassword, setShowPassword] = useState(false)
   const [agreeTerms, setAgreeTerms] = useState(false)
 
   // Status states
@@ -25,7 +26,7 @@ function Register() {
     setError(null)
 
     // Form Validations
-    if (!fullName.trim() || !username.trim() || !email.trim() || !password) {
+    if (!fullName.trim() || !username.trim() || !email.trim() || !password || !confirmPassword) {
       setError('Please fill in all required fields.')
       return
     }
@@ -57,7 +58,7 @@ function Register() {
       const firstName = nameParts[0] || 'User'
       const lastName = nameParts.slice(1).join(' ') || ''
 
-      // DummyJSON simulation for adding a user
+      // DummyJSON mock registration endpoint
       await axios.post('https://dummyjson.com/users/add', {
         firstName,
         lastName,
@@ -79,111 +80,152 @@ function Register() {
   }
 
   return (
-    <div className="auth-wrapper">
-      <div className="auth-card">
-        <div className="text-center mb-3">
-          <Link to="/" className="auth-brand">
-            ShopStream
-          </Link>
-          <h2 className="auth-title">Create an account</h2>
-          <p className="auth-subtitle">Join us to get exclusive deals and track your orders</p>
-        </div>
+    <div className="auth-page-container">
+      <div className="auth-card-figma">
+        {/* Header */}
+        <h2 className="auth-header-title">Create Account</h2>
+        <p className="auth-header-subtitle">
+          Join ShopStream for a personalized shopping experience.
+        </p>
 
         {error && (
-          <Alert variant="danger" dismissible onClose={() => setError(null)}>
-            {error}
+          <Alert variant="danger" dismissible onClose={() => setError(null)} className="py-2">
+            <span className="small">{error}</span>
           </Alert>
         )}
 
         {success && (
-          <Alert variant="success">
-            {success}
+          <Alert variant="success" className="py-2">
+            <span className="small">{success}</span>
           </Alert>
         )}
 
         <Form onSubmit={handleSubmit}>
+          {/* Full Name */}
           <Form.Group className="mb-3" controlId="registerFullName">
-            <Form.Label className="auth-label">Full Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="e.g. Emily Johnson"
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-              className="auth-input"
-              required
-            />
+            <Form.Label className="auth-field-label">Full Name</Form.Label>
+            <div className="auth-input-group">
+              <span className="auth-input-icon" aria-hidden="true">👤</span>
+              <Form.Control
+                type="text"
+                placeholder="John Doe"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+                className="auth-control-with-icon"
+                required
+              />
+            </div>
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="registerUsername">
-            <Form.Label className="auth-label">Username</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="e.g. emilys"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="auth-input"
-              autoComplete="username"
-              required
-            />
-          </Form.Group>
+          {/* Username & Email Row */}
+          <Row className="g-2 mb-3">
+            <Col xs={12} sm={6}>
+              <Form.Group controlId="registerUsername">
+                <Form.Label className="auth-field-label">Username</Form.Label>
+                <div className="auth-input-group">
+                  <span className="auth-input-icon" aria-hidden="true">@</span>
+                  <Form.Control
+                    type="text"
+                    placeholder="johndoe"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                    className="auth-control-with-icon"
+                    autoComplete="username"
+                    required
+                  />
+                </div>
+              </Form.Group>
+            </Col>
 
-          <Form.Group className="mb-3" controlId="registerEmail">
-            <Form.Label className="auth-label">Email Address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="you@example.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="auth-input"
-              autoComplete="email"
-              required
-            />
-          </Form.Group>
+            <Col xs={12} sm={6}>
+              <Form.Group controlId="registerEmail">
+                <Form.Label className="auth-field-label">Email Address</Form.Label>
+                <div className="auth-input-group">
+                  <span className="auth-input-icon" aria-hidden="true">✉</span>
+                  <Form.Control
+                    type="email"
+                    placeholder="john@example.com"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="auth-control-with-icon"
+                    autoComplete="email"
+                    required
+                  />
+                </div>
+              </Form.Group>
+            </Col>
+          </Row>
 
+          {/* Password */}
           <Form.Group className="mb-3" controlId="registerPassword">
-            <Form.Label className="auth-label">Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="At least 6 characters"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="auth-input"
-              autoComplete="new-password"
-              required
-            />
+            <Form.Label className="auth-field-label">Password</Form.Label>
+            <div className="auth-input-group">
+              <span className="auth-input-icon" aria-hidden="true">🔒</span>
+              <Form.Control
+                type={showPassword ? 'text' : 'password'}
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="auth-control-with-icon"
+                autoComplete="new-password"
+                required
+              />
+              <button
+                type="button"
+                className="auth-toggle-pwd-btn"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? '👁️' : '👁️‍🗨️'}
+              </button>
+            </div>
           </Form.Group>
 
+          {/* Confirm Password */}
           <Form.Group className="mb-3" controlId="registerConfirmPassword">
-            <Form.Label className="auth-label">Confirm Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Re-enter your password"
-              value={confirmPassword}
-              onChange={(e) => setConfirmPassword(e.target.value)}
-              className="auth-input"
-              autoComplete="new-password"
-              required
-            />
+            <Form.Label className="auth-field-label">Confirm Password</Form.Label>
+            <div className="auth-input-group">
+              <span className="auth-input-icon" aria-hidden="true">🛡️</span>
+              <Form.Control
+                type="password"
+                placeholder="••••••••"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                className="auth-control-with-icon"
+                autoComplete="new-password"
+                required
+              />
+            </div>
           </Form.Group>
 
-          <Form.Group className="mb-4" controlId="registerAgreeTerms">
+          {/* Terms checkbox */}
+          <div className="mb-3">
             <Form.Check
               type="checkbox"
+              id="register-terms"
               label={
-                <span className="small text-muted">
-                  I agree to the <span className="text-primary" style={{ cursor: 'pointer' }}>Terms of Service</span> and{' '}
-                  <span className="text-primary" style={{ cursor: 'pointer' }}>Privacy Policy</span>
+                <span className="small text-secondary">
+                  I agree to the{' '}
+                  <span className="text-primary" style={{ cursor: 'pointer' }}>
+                    Terms of Service
+                  </span>{' '}
+                  and{' '}
+                  <span className="text-primary" style={{ cursor: 'pointer' }}>
+                    Privacy Policy
+                  </span>
+                  .
                 </span>
               }
               checked={agreeTerms}
               onChange={(e) => setAgreeTerms(e.target.checked)}
               required
             />
-          </Form.Group>
+          </div>
 
+          {/* Submit button */}
           <Button
             type="submit"
-            className="w-100 auth-btn-primary"
+            className="btn-auth-submit"
             disabled={loading || Boolean(success)}
           >
             {loading ? (
@@ -199,23 +241,41 @@ function Register() {
                 Creating Account...
               </>
             ) : (
-              'Create Account'
+              <>Sign Up &rarr;</>
             )}
           </Button>
+
+          {/* Or register with */}
+          <div className="auth-divider">
+            <span>Or register with</span>
+          </div>
+
+          {/* Social login buttons */}
+          <div className="auth-social-row">
+            <button
+              type="button"
+              className="btn-auth-social"
+              onClick={() => {}}
+            >
+              <span>G</span> Google
+            </button>
+            <button
+              type="button"
+              className="btn-auth-social"
+              onClick={() => {}}
+            >
+              <span></span> Apple
+            </button>
+          </div>
         </Form>
 
-        <p className="auth-footer-text">
+        {/* Switch to Login */}
+        <p className="auth-bottom-switch">
           Already have an account?{' '}
-          <Link to="/login" className="auth-link">
-            Sign in
+          <Link to="/login" className="auth-switch-link">
+            Sign In
           </Link>
         </p>
-
-        <div className="text-center mt-3">
-          <Link to="/" className="text-muted small text-decoration-none">
-            &larr; Back to Store
-          </Link>
-        </div>
       </div>
     </div>
   )

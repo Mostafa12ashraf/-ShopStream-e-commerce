@@ -10,7 +10,8 @@ function Login() {
   // Form states
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
-  const [rememberMe, setRememberMe] = useState(false)
+  const [showPassword, setShowPassword] = useState(false)
+  const [rememberMe, setRememberMe] = useState(true)
 
   // Status states
   const [loading, setLoading] = useState(false)
@@ -26,7 +27,7 @@ function Login() {
     e.preventDefault()
 
     if (!username.trim() || !password) {
-      setError('Please enter both your username and password.')
+      setError('Please enter both your email/username and password.')
       return
     }
 
@@ -37,20 +38,27 @@ function Login() {
       const response = await axios.post('https://dummyjson.com/auth/login', {
         username: username.trim(),
         password: password,
-        expiresInMins: rememberMe ? 1440 : 60,
+        expiresInMins: rememberMe ? 43200 : 60, // 30 days vs 1 hour
       })
 
       const token = response.data.accessToken || response.data.token
 
       if (token) {
-        // Save token and user details to localStorage
-        localStorage.setItem('token', token)
-        localStorage.setItem('user', JSON.stringify(response.data))
+        // Persist session according to Remember Me setting
+        if (rememberMe) {
+          localStorage.setItem('token', token)
+          localStorage.setItem('user', JSON.stringify(response.data))
+        } else {
+          sessionStorage.setItem('token', token)
+          sessionStorage.setItem('user', JSON.stringify(response.data))
+          // Also set in localStorage so shared navbar detects it seamlessly
+          localStorage.setItem('token', token)
+          localStorage.setItem('user', JSON.stringify(response.data))
+        }
 
-        // Dispatch storage event so navbar and other listeners update instantly
+        // Notify Navbar and other listeners
         window.dispatchEvent(new Event('authChange'))
 
-        // Navigate to profile or store
         navigate('/profile')
       } else {
         setError('Login failed: Token not received from server.')
@@ -64,83 +72,98 @@ function Login() {
   }
 
   return (
-    <div className="auth-wrapper">
-      <div className="auth-card">
-        <div className="text-center mb-3">
-          <Link to="/" className="auth-brand">
-            ShopStream
-          </Link>
-          <h2 className="auth-title">Welcome back</h2>
-          <p className="auth-subtitle">Sign in to your account to continue</p>
-        </div>
+    <div className="auth-page-container">
+      <div className="auth-card-figma">
+        {/* Header */}
+        <h2 className="auth-header-title">Welcome Back</h2>
+        <p className="auth-header-subtitle">Please enter your details to sign in.</p>
 
-        {/* Demo credentials hint box */}
-        <div className="demo-credentials-box">
-          <div className="d-flex justify-content-between align-items-center">
-            <span className="demo-credentials-title">Demo Credentials</span>
-            <button
-              type="button"
-              className="demo-btn-autofill"
-              onClick={handleAutoFillDemo}
-            >
-              Autofill
-            </button>
+        {/* Demo Credentials Box */}
+        <div className="demo-credentials-pill d-flex justify-content-between align-items-center">
+          <div>
+            <div className="small fw-bold text-primary">Demo User</div>
+            <div className="small text-muted">
+              <code>emilys</code> &bull; <code>emilyspass</code>
+            </div>
           </div>
-          <div className="demo-credentials-text mt-1">
-            Username: <code>emilys</code> | Password: <code>emilyspass</code>
-          </div>
+          <button
+            type="button"
+            className="btn btn-sm btn-outline-primary"
+            onClick={handleAutoFillDemo}
+          >
+            Autofill
+          </button>
         </div>
 
         {error && (
-          <Alert variant="danger" dismissible onClose={() => setError(null)}>
-            {error}
+          <Alert variant="danger" dismissible onClose={() => setError(null)} className="py-2">
+            <span className="small">{error}</span>
           </Alert>
         )}
 
         <Form onSubmit={handleSubmit}>
+          {/* Email or Username */}
           <Form.Group className="mb-3" controlId="loginUsername">
-            <Form.Label className="auth-label">Username</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="e.g. emilys"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              className="auth-input"
-              autoComplete="username"
-              required
-            />
+            <Form.Label className="auth-field-label">Email or Username</Form.Label>
+            <div className="auth-input-group">
+              <span className="auth-input-icon" aria-hidden="true">✉</span>
+              <Form.Control
+                type="text"
+                placeholder="name@example.com"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                className="auth-control-with-icon"
+                autoComplete="username"
+                required
+              />
+            </div>
           </Form.Group>
 
+          {/* Password with Forgot? link */}
           <Form.Group className="mb-3" controlId="loginPassword">
-            <Form.Label className="auth-label">Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="auth-input"
-              autoComplete="current-password"
-              required
-            />
+            <div className="auth-field-label">
+              <span>Password</span>
+              <Link to="#" onClick={(e) => e.preventDefault()} className="auth-forgot-link">
+                Forgot?
+              </Link>
+            </div>
+            <div className="auth-input-group">
+              <span className="auth-input-icon" aria-hidden="true">🔒</span>
+              <Form.Control
+                type={showPassword ? 'text' : 'password'}
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="auth-control-with-icon"
+                autoComplete="current-password"
+                required
+              />
+              <button
+                type="button"
+                className="auth-toggle-pwd-btn"
+                onClick={() => setShowPassword((prev) => !prev)}
+                aria-label={showPassword ? 'Hide password' : 'Show password'}
+              >
+                {showPassword ? '👁️' : '👁️‍🗨️'}
+              </button>
+            </div>
           </Form.Group>
 
-          <div className="d-flex justify-content-between align-items-center mb-4">
+          {/* Stay signed in checkbox */}
+          <div className="mb-3">
             <Form.Check
               type="checkbox"
-              id="remember-me"
-              label="Remember me"
+              id="stay-signed-in"
+              label={<span className="small text-secondary">Stay signed in for 30 days</span>}
               checked={rememberMe}
               onChange={(e) => setRememberMe(e.target.checked)}
-              className="small text-muted"
             />
-            <span className="small text-muted" style={{ cursor: 'pointer' }}>
-              Forgot password?
-            </span>
           </div>
 
+          {/* Submit button */}
           <Button
             type="submit"
-            className="w-100 auth-btn-primary"
+            className="btn-auth-submit"
             disabled={loading}
           >
             {loading ? (
@@ -153,26 +176,44 @@ function Login() {
                   aria-hidden="true"
                   className="me-2"
                 />
-                Signing in...
+                Signing In...
               </>
             ) : (
-              'Sign In'
+              <>Sign In &rarr;</>
             )}
           </Button>
+
+          {/* Or continue with */}
+          <div className="auth-divider">
+            <span>Or continue with</span>
+          </div>
+
+          {/* Social login buttons */}
+          <div className="auth-social-row">
+            <button
+              type="button"
+              className="btn-auth-social"
+              onClick={() => {}}
+            >
+              <span>G</span> Google
+            </button>
+            <button
+              type="button"
+              className="btn-auth-social"
+              onClick={() => {}}
+            >
+              <span></span> Apple
+            </button>
+          </div>
         </Form>
 
-        <p className="auth-footer-text">
+        {/* Switch to Register */}
+        <p className="auth-bottom-switch">
           Don&apos;t have an account?{' '}
-          <Link to="/register" className="auth-link">
-            Sign up
+          <Link to="/register" className="auth-switch-link">
+            Register
           </Link>
         </p>
-
-        <div className="text-center mt-3">
-          <Link to="/" className="text-muted small text-decoration-none">
-            &larr; Back to Store
-          </Link>
-        </div>
       </div>
     </div>
   )

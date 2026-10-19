@@ -12,27 +12,29 @@ function StoreNavbar() {
   const cartItems = useSelector((state) => state.cart.items)
   const totalCartQuantity = cartItems.reduce((total, item) => total + item.quantity, 0)
 
-  // Auth state initialized directly from localStorage
-  const [isAuthenticated, setIsAuthenticated] = useState(() => Boolean(localStorage.getItem('token')))
-  const [user, setUser] = useState(() => {
+  // Helper to read active token and user
+  function getActiveToken() {
+    return localStorage.getItem('token') || sessionStorage.getItem('token') || ''
+  }
+
+  function getActiveUser() {
     try {
-      const saved = localStorage.getItem('user')
+      const saved = localStorage.getItem('user') || sessionStorage.getItem('user')
       return saved ? JSON.parse(saved) : null
     } catch {
       return null
     }
-  })
+  }
+
+  // Auth state initialized directly from storage
+  const [isAuthenticated, setIsAuthenticated] = useState(() => Boolean(getActiveToken()))
+  const [user, setUser] = useState(() => getActiveUser())
 
   // Sync auth state when storage or authChange event fires
   useEffect(() => {
     function handleAuthSync() {
-      setIsAuthenticated(Boolean(localStorage.getItem('token')))
-      try {
-        const saved = localStorage.getItem('user')
-        setUser(saved ? JSON.parse(saved) : null)
-      } catch {
-        setUser(null)
-      }
+      setIsAuthenticated(Boolean(getActiveToken()))
+      setUser(getActiveUser())
     }
 
     window.addEventListener('storage', handleAuthSync)
@@ -47,11 +49,14 @@ function StoreNavbar() {
   function handleLogout() {
     localStorage.removeItem('token')
     localStorage.removeItem('user')
+    sessionStorage.removeItem('token')
+    sessionStorage.removeItem('user')
     setIsAuthenticated(false)
     setUser(null)
     window.dispatchEvent(new Event('authChange'))
     navigate('/login')
   }
+
 
   const currentSearch = searchParams.get('search') || ''
 

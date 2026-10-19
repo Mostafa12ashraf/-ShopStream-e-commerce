@@ -24,11 +24,7 @@ import NotFound from './pages/NotFound'
 function App() {
   return (
     <Routes>
-      {/* Public routes */}
-      <Route path="/login" element={<Login />} />
-      <Route path="/register" element={<Register />} />
-
-      {/* Store routes */}
+      {/* Store & Auth routes wrapped with StoreLayout matching Figma */}
       <Route element={<StoreLayout />}>
         <Route index element={<Home />} />
         <Route path="/products" element={<Products />} />
@@ -37,6 +33,8 @@ function App() {
         <Route path="/checkout" element={<Checkout />} />
         <Route path="/order-confirmation" element={<OrderConfirmation />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
       </Route>
 
       {/* Dashboard routes */}

@@ -1,129 +1,112 @@
 /* ============================================================
-   Home Page Styles
+   Home Page Styles - Pixel-Accurate to Figma Reference
    ============================================================ */
 
-/* ---------- Hero Section ---------- */
-.home-hero {
-  background: linear-gradient(135deg, #f5f3ff 0%, #e0e7ff 50%, #ede9fe 100%);
-  border-radius: 20px;
-  padding: 3.5rem 2.5rem;
-  margin-top: 1.5rem;
-  margin-bottom: 3rem;
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(79, 70, 229, 0.1);
-  box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.05);
+.home-page {
+  padding-top: 1rem;
+  padding-bottom: 3.5rem;
 }
 
-.home-hero-badge {
+/* ---------- 1. Hero Section ---------- */
+.home-hero-section {
+  background: radial-gradient(circle at 85% 30%, rgba(224, 231, 255, 0.7) 0%, rgba(248, 250, 252, 1) 70%);
+  border-radius: 24px;
+  padding: 3.5rem 3rem;
+  margin-bottom: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-pill-badge {
   display: inline-block;
-  background-color: #4f46e5;
-  color: #ffffff;
-  font-size: 0.75rem;
+  background-color: #d1fae5;
+  color: #059669;
+  font-size: 0.72rem;
   font-weight: 700;
-  letter-spacing: 0.06em;
+  letter-spacing: 0.05em;
   padding: 0.35rem 0.85rem;
   border-radius: 9999px;
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
   text-transform: uppercase;
 }
 
-.home-hero-title {
-  font-size: 2.75rem;
+.home-hero-heading {
+  font-size: 3.25rem;
   font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.025em;
-  color: #111827;
-  margin-bottom: 1rem;
+  line-height: 1.12;
+  letter-spacing: -0.03em;
+  color: #0f172a;
+  margin-bottom: 1.25rem;
 }
 
-.home-hero-title-highlight {
-  color: #4f46e5;
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+.home-hero-highlight {
+  color: #3d35ee;
 }
 
-.home-hero-desc {
-  font-size: 1.1rem;
-  color: #4b5563;
+.home-hero-subtext {
+  font-size: 1.05rem;
+  color: #64748b;
   line-height: 1.6;
+  max-width: 480px;
   margin-bottom: 2rem;
-  max-width: 540px;
 }
 
-.home-hero-img-box {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: relative;
-}
-
-.home-hero-img {
-  max-width: 85%;
-  height: auto;
-  filter: drop-shadow(0 20px 25px rgba(79, 70, 229, 0.25));
-  animation: float 4s ease-in-out infinite alternate;
-}
-
-@keyframes float {
-  0% {
-    transform: translateY(0px);
-  }
-  100% {
-    transform: translateY(-10px);
-  }
-}
-
-/* ---------- Value Propositions / Features Bar ---------- */
-.home-features {
-  margin-bottom: 3.5rem;
-}
-
-.home-feature-card {
-  background: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 1.25rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  height: 100%;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.home-feature-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.home-feature-icon {
-  width: 48px;
-  height: 48px;
-  border-radius: 10px;
-  background-color: #f5f3ff;
-  color: #4f46e5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.4rem;
-  flex-shrink: 0;
-}
-
-.home-feature-title {
+.btn-hero-primary {
+  background-color: #3730a3;
+  border-color: #3730a3;
+  color: #ffffff;
+  font-weight: 600;
   font-size: 0.95rem;
-  font-weight: 700;
-  color: #111827;
-  margin-bottom: 0.15rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 8px;
+  transition: background-color 0.15s, transform 0.05s;
 }
 
-.home-feature-sub {
-  font-size: 0.8rem;
-  color: #6b7280;
-  margin-bottom: 0;
+.btn-hero-primary:hover {
+  background-color: #312e81;
+  border-color: #312e81;
+  color: #ffffff;
 }
 
-/* ---------- Section Header ---------- */
+.btn-hero-outline {
+  background-color: #ffffff;
+  border: 1px solid #c7d2fe;
+  color: #3730a3;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.75rem 1.75rem;
+  border-radius: 8px;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.btn-hero-outline:hover {
+  background-color: #f5f3ff;
+  border-color: #818cf8;
+  color: #3730a3;
+}
+
+.hero-image-frame {
+  background: #0b0f19;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 40px -15px rgba(15, 23, 42, 0.4);
+  max-width: 500px;
+  margin-left: auto;
+}
+
+.hero-image-media {
+  width: 100%;
+  height: 380px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.hero-image-frame:hover .hero-image-media {
+  transform: scale(1.02);
+}
+
+/* ---------- 2. Top Categories (Bento Grid) ---------- */
 .home-section-header {
   display: flex;
   justify-content: space-between;
@@ -132,85 +115,313 @@
 }
 
 .home-section-title {
-  font-size: 1.75rem;
+  font-size: 1.85rem;
   font-weight: 800;
-  color: #111827;
+  color: #0f172a;
   letter-spacing: -0.02em;
   margin-bottom: 0.25rem;
 }
 
 .home-section-subtitle {
-  color: #6b7280;
+  color: #64748b;
   font-size: 0.95rem;
   margin-bottom: 0;
 }
 
-/* ---------- Category Cards ---------- */
-.home-categories {
-  margin-bottom: 4rem;
+.home-see-all-link {
+  color: #3d35ee;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: color 0.15s, transform 0.15s;
 }
 
-.home-category-card {
+.home-see-all-link:hover {
+  color: #2e29cc;
+  transform: translateX(3px);
+}
+
+/* Bento Category Cards */
+.bento-card {
+  position: relative;
+  border-radius: 18px;
+  overflow: hidden;
+  display: block;
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  background-color: #0b0f19;
+}
+
+.bento-card-computing {
+  height: 440px;
+}
+
+.bento-card-half {
+  height: 210px;
+}
+
+.bento-card-full {
+  height: 210px;
+}
+
+.bento-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.bento-card:hover .bento-img {
+  transform: scale(1.04);
+}
+
+.bento-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0) 40%, rgba(15, 23, 42, 0.85) 100%);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+  color: #ffffff;
+}
+
+.bento-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.2rem;
+}
+
+.bento-subtitle {
+  font-size: 0.825rem;
+  color: #94a3b8;
+  margin-bottom: 0;
+}
+
+/* ---------- 3. Featured Products Slider & Cards ---------- */
+.carousel-nav-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #475569;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.carousel-nav-btn:hover {
+  background-color: #f1f5f9;
+  border-color: #94a3b8;
+}
+
+/* Custom ProductCard--home styles */
+.product-card--home {
   background: #ffffff;
   border: 1px solid #e5e7eb;
-  border-radius: 14px;
-  padding: 1.5rem;
+  border-radius: 16px;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.product-card--home:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.08);
+}
+
+.product-card--home .product-img-box {
+  background: #0f172a;
+  height: 230px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   text-decoration: none;
-  display: block;
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
-  height: 100%;
 }
 
-.home-category-card:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.06);
-  border-color: #c7d2fe;
+.product-card--home .product-img-home {
+  max-width: 82%;
+  max-height: 82%;
+  object-fit: contain;
+  transition: transform 0.3s ease;
 }
 
-.home-category-icon {
-  font-size: 2.25rem;
-  margin-bottom: 0.75rem;
-  display: inline-block;
+.product-card--home:hover .product-img-home {
+  transform: scale(1.06);
 }
 
-.home-category-name {
-  font-size: 1.15rem;
+.product-badge--bestseller {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: #10b981;
+  color: #ffffff;
+  font-size: 0.65rem;
   font-weight: 700;
-  color: #111827;
-  margin-bottom: 0.25rem;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  z-index: 2;
 }
 
-.home-category-desc {
-  font-size: 0.825rem;
-  color: #6b7280;
-  margin-bottom: 0.75rem;
+.product-badge--new-pill {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background-color: #4f46e5;
+  color: #ffffff;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  z-index: 2;
 }
 
-.home-category-cta {
-  font-size: 0.85rem;
+.product-category-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #4f46e5;
+  margin-bottom: 0.35rem;
+  display: block;
+}
+
+.product-title-home {
+  font-size: 0.95rem;
   font-weight: 600;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-decoration: none;
+}
+
+.product-title-home:hover {
   color: #4f46e5;
 }
 
-/* ---------- Banner CTA ---------- */
-.home-promo-banner {
-  background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
-  border-radius: 16px;
-  padding: 2.75rem 2rem;
+.product-price-home {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #059669;
+}
+
+.btn-home-cart {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background-color: #f5f3ff;
+  border: 1px solid #e0e7ff;
+  color: #4f46e5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  transition: background-color 0.15s, color 0.15s, transform 0.05s;
+}
+
+.btn-home-cart:hover {
+  background-color: #4f46e5;
   color: #ffffff;
-  margin-top: 4rem;
-  margin-bottom: 1rem;
+  border-color: #4f46e5;
+}
+
+.btn-home-cart:active {
+  transform: scale(0.92);
+}
+
+/* ---------- 4. Stay Ahead of the Stream Promo Banner ---------- */
+.promo-stream-banner {
+  background: #2e29cc;
+  border-radius: 24px;
+  padding: 3.5rem 3rem;
+  color: #ffffff;
+  margin-top: 4.5rem;
   position: relative;
   overflow: hidden;
 }
 
-.home-promo-banner::before {
+/* Decorative background sunburst pattern */
+.promo-stream-banner::after {
   content: '';
   position: absolute;
-  top: -50px;
-  right: -50px;
-  width: 250px;
-  height: 250px;
-  background: radial-gradient(circle, rgba(99, 102, 241, 0.4) 0%, rgba(99, 102, 241, 0) 70%);
+  top: -20%;
+  right: -5%;
+  width: 480px;
+  height: 480px;
+  background: radial-gradient(circle, transparent 35%, rgba(255, 255, 255, 0.08) 36%, transparent 40%, rgba(255, 255, 255, 0.08) 41%, transparent 55%, rgba(255, 255, 255, 0.08) 56%, transparent 70%);
   border-radius: 50%;
+  pointer-events: none;
+}
+
+.promo-stream-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.85rem;
+  color: #ffffff;
+}
+
+.promo-stream-desc {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  max-width: 580px;
+  margin-bottom: 2rem;
+}
+
+.promo-form-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  max-width: 460px;
+}
+
+.promo-stream-input {
+  flex: 1;
+  min-width: 220px;
+  background-color: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  color: #ffffff;
+  padding: 0.7rem 1.1rem;
+  font-size: 0.95rem;
+  outline: none;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.promo-stream-input::placeholder {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.promo-stream-input:focus {
+  background-color: rgba(255, 255, 255, 0.25);
+  border-color: #ffffff;
+}
+
+.btn-promo-join {
+  background-color: #059669;
+  border-color: #059669;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.7rem 1.65rem;
+  border-radius: 8px;
+  transition: background-color 0.15s;
+}
+
+.btn-promo-join:hover {
+  background-color: #047857;
+  border-color: #047857;
+  color: #ffffff;
 }

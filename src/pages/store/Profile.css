@@ -1,76 +1,151 @@
 /* ============================================================
-   Profile Page Styles
+   Profile Page Styles - Pixel-Accurate to Figma Image 1
    ============================================================ */
 
-.profile-page {
+.profile-container-figma {
   padding-top: 2rem;
-  padding-bottom: 3.5rem;
+  padding-bottom: 4rem;
 }
 
-.profile-card {
+/* ---------- Left Sidebar Card ---------- */
+.profile-sidebar-card {
   background: #ffffff;
-  border-radius: 16px;
+  border-radius: 18px;
   border: 1px solid #e5e7eb;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  padding: 1.75rem 1.25rem;
 }
 
-.profile-header-banner {
-  height: 120px;
-  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
-  position: relative;
-}
-
-.profile-header-body {
-  padding: 0 2rem 1.5rem;
-  position: relative;
-}
-
-.profile-avatar-wrapper {
-  margin-top: -50px;
-  margin-bottom: 1rem;
-}
-
-.profile-avatar-img {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 4px solid #ffffff;
-  object-fit: cover;
-  background-color: #f3f4f6;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.profile-avatar-fallback {
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 4px solid #ffffff;
-  background-color: #e0e7ff;
-  color: #4f46e5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 2.5rem;
-  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-}
-
-.profile-name {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #111827;
+.profile-sidebar-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f172a;
   margin-bottom: 0.15rem;
 }
 
-.profile-username {
-  color: #6b7280;
-  font-size: 0.95rem;
-  margin-bottom: 0.5rem;
+.profile-sidebar-subtitle {
+  font-size: 0.825rem;
+  color: #64748b;
+  margin-bottom: 1.5rem;
 }
 
-.profile-badge {
-  background-color: #ecfdf5;
+.profile-nav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.profile-nav-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1rem;
+  border-radius: 10px;
+  color: #475569;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-decoration: none;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: left;
+  transition: background-color 0.15s, color 0.15s;
+}
+
+.profile-nav-item:hover {
+  background-color: #f8fafc;
+  color: #0f172a;
+}
+
+.profile-nav-item--active {
+  background-color: #312cb8 !important;
+  color: #ffffff !important;
+}
+
+.profile-nav-divider {
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 1.25rem 0;
+}
+
+.profile-nav-item--danger {
+  color: #ef4444 !important;
+}
+
+.profile-nav-item--danger:hover {
+  background-color: #fef2f2 !important;
+}
+
+/* ---------- Top User Summary Card ---------- */
+.profile-main-card {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  padding: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.profile-avatar-box {
+  position: relative;
+  width: 90px;
+  height: 90px;
+  flex-shrink: 0;
+}
+
+.profile-avatar-circle {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #e2e8f0;
+}
+
+.profile-edit-avatar-badge {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 28px;
+  height: 28px;
+  background-color: #3d35ee;
+  color: #ffffff;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.profile-full-name {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin-bottom: 0.15rem;
+}
+
+.profile-email-text {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin-bottom: 0.75rem;
+}
+
+.profile-member-badge-green {
+  background-color: #d1fae5;
   color: #059669;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 0.3rem 0.75rem;
+  border-radius: 9999px;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+.profile-member-badge-gray {
+  background-color: #f1f5f9;
+  color: #475569;
   font-size: 0.75rem;
   font-weight: 600;
   padding: 0.3rem 0.75rem;
@@ -78,42 +153,227 @@
   display: inline-block;
 }
 
-.profile-info-section {
-  padding: 1.5rem 2rem;
-  border-top: 1px solid #f3f4f6;
+.btn-profile-primary {
+  background-color: #312cb8;
+  border-color: #312cb8;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  transition: background-color 0.15s;
 }
 
-.profile-section-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 1.25rem;
+.btn-profile-primary:hover {
+  background-color: #262299;
+  border-color: #262299;
+  color: #ffffff;
+}
+
+.btn-profile-outline {
+  background-color: #ffffff;
+  border: 1px solid #c7d2fe;
+  color: #312cb8;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+
+.btn-profile-outline:hover {
+  background-color: #f5f3ff;
+  border-color: #818cf8;
+}
+
+/* ---------- Stat Cards Row ---------- */
+.profile-stat-card {
+  background: #ffffff;
+  border-radius: 16px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  padding: 1.5rem;
+  position: relative;
+  height: 100%;
+}
+
+.stat-icon-wrapper {
+  width: 42px;
+  height: 42px;
+  border-radius: 10px;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  justify-content: center;
+  font-size: 1.25rem;
+  margin-bottom: 1.25rem;
 }
 
-.profile-detail-item {
-  margin-bottom: 1rem;
+.stat-icon-purple {
+  background-color: #f5f3ff;
+  color: #3d35ee;
 }
 
-.profile-detail-label {
-  font-size: 0.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: #6b7280;
+.stat-icon-green {
+  background-color: #ecfdf5;
+  color: #059669;
+}
+
+.stat-icon-blue {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.stat-pill-highlight {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  color: #059669;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.stat-label {
+  font-size: 0.85rem;
+  color: #64748b;
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #0f172a;
+  letter-spacing: -0.02em;
+  margin-bottom: 0;
+}
+
+/* ---------- Recent Orders Section ---------- */
+.orders-card {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  padding: 1.75rem;
+}
+
+.orders-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.orders-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 0;
+}
+
+.orders-view-all {
+  color: #3d35ee;
   font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.orders-view-all:hover {
+  text-decoration: underline;
+}
+
+.order-row-item {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.order-row-item:last-child {
+  border-bottom: none;
+  padding-bottom: 0.25rem;
+}
+
+.order-thumb-img {
+  width: 60px;
+  height: 60px;
+  border-radius: 12px;
+  background-color: #0b0f19;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.order-meta-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.order-item-title {
+  font-size: 0.975rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.2rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.order-item-sub {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin-bottom: 0;
+}
+
+.order-status-col {
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.order-item-price {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #3d35ee;
   margin-bottom: 0.2rem;
 }
 
-.profile-detail-val {
-  font-size: 0.95rem;
-  color: #111827;
-  font-weight: 500;
+.order-badge-delivered {
+  background-color: #d1fae5;
+  color: #059669;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  display: inline-block;
 }
 
-.profile-action-btn {
-  border-radius: 8px;
+.order-badge-shipped {
+  background-color: #e0e7ff;
+  color: #312cb8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+.order-badge-processing {
+  background-color: #f1f5f9;
+  color: #475569;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.25rem 0.65rem;
+  border-radius: 9999px;
+  display: inline-block;
+}
+
+.order-action-link {
+  font-size: 0.775rem;
+  color: #3d35ee;
   font-weight: 600;
-  padding: 0.55rem 1.25rem;
+  text-decoration: none;
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.order-action-link:hover {
+  text-decoration: underline;
 }
