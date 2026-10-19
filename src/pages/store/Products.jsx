@@ -61,22 +61,41 @@ function Products() {
   const [sortOption, setSortOption] = useState('default')
   const [currentPage, setCurrentPage] = useState(1)
 
-  // ── Fetch all products ───────────────────────────────────────
+  // ── Fetch products using DummyJSON search or category endpoints ──
   useEffect(() => {
     async function getProducts() {
       setLoading(true)
       setError(null)
 
       try {
-        // limit=0 returns the full collection (194 products) directly from DummyJSON
-        const response = await axios.get('https://dummyjson.com/products?limit=0')
-        const allProducts = response.data.products || []
+        let fetchedList = []
 
-        setProducts(allProducts)
+        if (search.trim()) {
+          // Use DummyJSON search endpoint for search queries
+          const response = await axios.get(
+            `https://dummyjson.com/products/search?q=${encodeURIComponent(search.trim())}&limit=0`
+          )
+          fetchedList = response.data.products || []
+        } else if (selectedCategory && categoryGroups[selectedCategory]) {
+          // Use DummyJSON category endpoint when category is selected
+          const subcats = categoryGroups[selectedCategory]
+          const responses = await Promise.all(
+            subcats.map((cat) =>
+              axios.get(`https://dummyjson.com/products/category/${cat}?limit=0`)
+            )
+          )
+          fetchedList = responses.flatMap((res) => res.data.products || [])
+        } else {
+          // Full catalog
+          const response = await axios.get('https://dummyjson.com/products?limit=0')
+          fetchedList = response.data.products || []
+        }
+
+        setProducts(fetchedList)
 
         // Set the price slider ceiling dynamically from the highest product price
-        if (allProducts.length > 0) {
-          const highest = Math.max(...allProducts.map((p) => p.price))
+        if (fetchedList.length > 0) {
+          const highest = Math.max(...fetchedList.map((p) => p.price))
           const roundedLimit = Math.ceil(highest / 100) * 100
           setPriceLimit(roundedLimit)
           setMaxPrice(roundedLimit)
@@ -89,7 +108,8 @@ function Products() {
     }
 
     getProducts()
-  }, [retryCount])
+  }, [search, selectedCategory, retryCount])
+
 
   // ── Derived: unique brands from API data ─────────────────────
   const brands = [...new Set(products.map((p) => p.brand).filter(Boolean))].sort()

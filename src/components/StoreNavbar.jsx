@@ -1,6 +1,7 @@
+import { useState, useEffect } from 'react'
 import { NavLink, Link, useSearchParams, useNavigate, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import { Navbar, Nav, Container } from 'react-bootstrap'
+import { Navbar, Nav, Container, Button } from 'react-bootstrap'
 
 function StoreNavbar() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -10,6 +11,47 @@ function StoreNavbar() {
   // Read cart items from Redux to calculate total quantity
   const cartItems = useSelector((state) => state.cart.items)
   const totalCartQuantity = cartItems.reduce((total, item) => total + item.quantity, 0)
+
+  // Auth state initialized directly from localStorage
+  const [isAuthenticated, setIsAuthenticated] = useState(() => Boolean(localStorage.getItem('token')))
+  const [user, setUser] = useState(() => {
+    try {
+      const saved = localStorage.getItem('user')
+      return saved ? JSON.parse(saved) : null
+    } catch {
+      return null
+    }
+  })
+
+  // Sync auth state when storage or authChange event fires
+  useEffect(() => {
+    function handleAuthSync() {
+      setIsAuthenticated(Boolean(localStorage.getItem('token')))
+      try {
+        const saved = localStorage.getItem('user')
+        setUser(saved ? JSON.parse(saved) : null)
+      } catch {
+        setUser(null)
+      }
+    }
+
+    window.addEventListener('storage', handleAuthSync)
+    window.addEventListener('authChange', handleAuthSync)
+
+    return () => {
+      window.removeEventListener('storage', handleAuthSync)
+      window.removeEventListener('authChange', handleAuthSync)
+    }
+  }, [])
+
+  function handleLogout() {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+    setIsAuthenticated(false)
+    setUser(null)
+    window.dispatchEvent(new Event('authChange'))
+    navigate('/login')
+  }
 
   const currentSearch = searchParams.get('search') || ''
 
@@ -61,15 +103,61 @@ function StoreNavbar() {
           </div>
 
           <div className="store-nav-icons">
-            <NavLink to="/cart" className="store-icon-link position-relative" aria-label="Cart">
+            {/* Cart Icon Link */}
+            <NavLink to="/cart" className="store-icon-link position-relative me-2" aria-label="Cart">
               🛒
               {totalCartQuantity > 0 && (
                 <span className="cart-badge">{totalCartQuantity}</span>
               )}
             </NavLink>
-            <NavLink to="/profile" className="store-icon-link" aria-label="Profile">
-              👤
-            </NavLink>
+
+            {/* Dynamic Auth Section */}
+            {isAuthenticated ? (
+              <div className="d-flex align-items-center gap-2">
+                <NavLink to="/profile" className="store-user-chip" aria-label="Profile">
+                  {user?.image ? (
+                    <img
+                      src={user.image}
+                      alt={user.firstName || 'User'}
+                      className="store-nav-avatar"
+                    />
+                  ) : (
+                    <span>👤</span>
+                  )}
+                  <span>{user?.firstName ? user.firstName : 'Profile'}</span>
+                </NavLink>
+
+                <Button
+                  variant="outline-danger"
+                  size="sm"
+                  onClick={handleLogout}
+                  className="nav-auth-btn"
+                >
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <div className="d-flex align-items-center gap-2">
+                <Button
+                  as={Link}
+                  to="/login"
+                  variant="outline-primary"
+                  size="sm"
+                  className="nav-auth-btn"
+                >
+                  Sign In
+                </Button>
+                <Button
+                  as={Link}
+                  to="/register"
+                  variant="primary"
+                  size="sm"
+                  className="nav-auth-btn text-white"
+                >
+                  Register
+                </Button>
+              </div>
+            )}
           </div>
         </Navbar.Collapse>
       </Container>
