@@ -1,7 +1,10 @@
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
+import { useDispatch } from 'react-redux'
+import { addToCart } from '../redux/cartSlice'
 
 function ProductCard({ product }) {
+  const dispatch = useDispatch()
   const { id, title, description, price, rating, thumbnail, discountPercentage } = product
 
   // Calculate original price only when a real discount exists
@@ -12,6 +15,10 @@ function ProductCard({ product }) {
 
   // Show "NEW" badge on top-rated items without a discount to match Figma
   const isNew = !hasDiscount && rating >= 4.8
+
+  function handleAddToCart() {
+    dispatch(addToCart({ product, quantity: 1 }))
+  }
 
   return (
     <Card className="product-card h-100">
@@ -52,8 +59,11 @@ function ProductCard({ product }) {
               <span className="product-original-price">${originalPrice}</span>
             )}
           </div>
-          {/* Cart integration will be added in the Cart phase */}
-          <button type="button" className="btn btn-primary btn-add">
+          <button
+            type="button"
+            className="btn btn-primary btn-add"
+            onClick={handleAddToCart}
+          >
             🛒 Add
           </button>
         </div>

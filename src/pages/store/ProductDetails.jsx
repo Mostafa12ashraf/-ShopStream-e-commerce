@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react'
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap'
+import { addToCart } from '../../redux/cartSlice'
 import ProductCard from '../../components/ProductCard'
 import './ProductDetails.css'
 
 function ProductDetails() {
   const { id } = useParams()
+  const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   // ── State ────────────────────────────────────────────────────
   const [product, setProduct] = useState(null)
@@ -18,6 +22,7 @@ function ProductDetails() {
   const [activeTab, setActiveTab] = useState('specifications')
   const [relatedProducts, setRelatedProducts] = useState([])
   const [retryCount, setRetryCount] = useState(0)
+  const [addedFeedback, setAddedFeedback] = useState(false)
 
   // ── Fetch single product ─────────────────────────────────────
   useEffect(() => {
@@ -66,6 +71,46 @@ function ProductDetails() {
     getProduct()
   }, [id, retryCount])
 
+  // ── Derived data ──────────────────────────────────────────────
+  const images =
+    product?.images && product.images.length > 0
+      ? product.images
+      : [product?.thumbnail].filter(Boolean)
+
+  const hasDiscount = product?.discountPercentage && product.discountPercentage > 0
+  const originalPrice = hasDiscount
+    ? (product.price / (1 - product.discountPercentage / 100)).toFixed(2)
+    : null
+
+  const isOutOfStock = product?.stock === 0
+  const maxAllowedQuantity = Math.max(1, product?.stock || 1)
+
+  // Reviews count
+  const reviewCount =
+    product?.reviews && product.reviews.length > 0
+      ? product.reviews.length * 42
+      : 128
+
+  const colorOptions = [
+    { name: 'Midnight Indigo', hex: '#252b5c' },
+    { name: 'Slate Gray', hex: '#374151' },
+    { name: 'Pearl White', hex: '#f3f4f6' },
+  ]
+
+  // ── Handlers ─────────────────────────────────────────────────
+  function handleAddToCart() {
+    if (!product || isOutOfStock) return
+    dispatch(addToCart({ product, quantity }))
+    setAddedFeedback(true)
+    setTimeout(() => setAddedFeedback(false), 2000)
+  }
+
+  function handleBuyNow() {
+    if (!product || isOutOfStock) return
+    dispatch(addToCart({ product, quantity }))
+    navigate('/checkout')
+  }
+
   // ── Loading state ─────────────────────────────────────────────
   if (loading) {
     return (
@@ -99,32 +144,6 @@ function ProductDetails() {
       </Container>
     )
   }
-
-  // ── Derived data ──────────────────────────────────────────────
-  const images =
-    product.images && product.images.length > 0
-      ? product.images
-      : [product.thumbnail].filter(Boolean)
-
-  const hasDiscount = product.discountPercentage && product.discountPercentage > 0
-  const originalPrice = hasDiscount
-    ? (product.price / (1 - product.discountPercentage / 100)).toFixed(2)
-    : null
-
-  const isOutOfStock = product.stock === 0
-  const maxAllowedQuantity = Math.max(1, product.stock || 1)
-
-  // Reviews count
-  const reviewCount =
-    product.reviews && product.reviews.length > 0
-      ? product.reviews.length * 42
-      : 128
-
-  const colorOptions = [
-    { name: 'Midnight Indigo', hex: '#252b5c' },
-    { name: 'Slate Gray', hex: '#374151' },
-    { name: 'Pearl White', hex: '#f3f4f6' },
-  ]
 
   return (
     <Container fluid="xl" className="product-details-page py-4">
@@ -293,13 +312,13 @@ function ProductDetails() {
                 </button>
               </div>
 
-              {/* Cart integration will be added in the Cart phase */}
               <button
                 type="button"
                 className="btn btn-primary btn-details-add"
+                onClick={handleAddToCart}
                 disabled={isOutOfStock}
               >
-                🛍️ Add to Cart
+                {addedFeedback ? '✓ Added to Cart!' : '🛍️ Add to Cart'}
               </button>
             </div>
 
@@ -307,6 +326,7 @@ function ProductDetails() {
             <button
               type="button"
               className="btn btn-success btn-buy-now w-100 mb-4"
+              onClick={handleBuyNow}
               disabled={isOutOfStock}
             >
               Buy Now

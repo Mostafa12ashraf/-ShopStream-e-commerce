@@ -10,6 +10,8 @@ import Home from './pages/store/Home'
 import Products from './pages/store/Products'
 import ProductDetails from './pages/store/ProductDetails'
 import Cart from './pages/store/Cart'
+import Checkout from './pages/store/Checkout'
+import OrderConfirmation from './pages/store/OrderConfirmation'
 import Profile from './pages/store/Profile'
 
 import Overview from './pages/dashboard/Overview'
@@ -32,6 +34,8 @@ function App() {
         <Route path="/products" element={<Products />} />
         <Route path="/products/:id" element={<ProductDetails />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path="/checkout" element={<Checkout />} />
+        <Route path="/order-confirmation" element={<OrderConfirmation />} />
         <Route path="/profile" element={<Profile />} />
       </Route>
 

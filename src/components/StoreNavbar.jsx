@@ -1,10 +1,15 @@
 import { NavLink, Link, useSearchParams, useNavigate, useLocation } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { Navbar, Nav, Container } from 'react-bootstrap'
 
 function StoreNavbar() {
   const [searchParams, setSearchParams] = useSearchParams()
   const location = useLocation()
   const navigate = useNavigate()
+
+  // Read cart items from Redux to calculate total quantity
+  const cartItems = useSelector((state) => state.cart.items)
+  const totalCartQuantity = cartItems.reduce((total, item) => total + item.quantity, 0)
 
   const currentSearch = searchParams.get('search') || ''
 
@@ -56,8 +61,11 @@ function StoreNavbar() {
           </div>
 
           <div className="store-nav-icons">
-            <NavLink to="/cart" className="store-icon-link" aria-label="Cart">
+            <NavLink to="/cart" className="store-icon-link position-relative" aria-label="Cart">
               🛒
+              {totalCartQuantity > 0 && (
+                <span className="cart-badge">{totalCartQuantity}</span>
+              )}
             </NavLink>
             <NavLink to="/profile" className="store-icon-link" aria-label="Profile">
               👤

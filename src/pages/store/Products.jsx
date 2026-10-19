@@ -256,17 +256,83 @@ function Products() {
 
           {/* Empty results state */}
           {totalCount === 0 && (
-            <div className="products-empty">
-              <p className="text-muted fs-5 mb-1">No products found.</p>
-              <p className="text-muted small mb-3">
-                Try adjusting your filters or search term.
+            <div className="products-empty-enhanced text-center py-4">
+              <div className="no-results-icon-box mb-3">
+                <span className="no-results-icon" aria-hidden="true">🔍</span>
+              </div>
+
+              <h4 className="no-results-title mb-1">
+                {search.trim()
+                  ? `No results for "${search.trim()}"`
+                  : 'No products found'}
+              </h4>
+              <p className="text-muted small mb-4">
+                We couldn't find exactly what you were looking for.
               </p>
+
+              {/* Assistance Cards */}
+              <Row className="g-3 justify-content-center text-start mb-4">
+                <Col md={7}>
+                  <div className="empty-help-card h-100">
+                    <h6 className="fw-bold text-primary mb-2">Need a quick fix?</h6>
+                    <ul className="empty-help-list mb-0">
+                      <li>✓ Check your spelling for any typos.</li>
+                      <li>✓ Try using more general keywords.</li>
+                      <li>✓ Use the filters to broaden your search.</li>
+                    </ul>
+                  </div>
+                </Col>
+
+                <Col md={5}>
+                  <div className="empty-chat-card h-100">
+                    <h6 className="fw-bold text-success mb-1">Chat with us</h6>
+                    <p className="text-muted small mb-3">
+                      Our shopping assistants are online and ready to help you find the right item.
+                    </p>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-success btn-chat-support w-100"
+                      onClick={() => {}}
+                    >
+                      💬 Start Live Chat
+                    </button>
+                  </div>
+                </Col>
+              </Row>
+
+              {/* Popular Categories */}
+              <div className="popular-categories-section mb-4">
+                <p className="text-muted small fw-bold mb-2">BROWSE POPULAR CATEGORIES</p>
+                <div className="d-flex flex-wrap justify-content-center gap-2">
+                  {Object.keys(categoryGroups).map((group) => (
+                    <button
+                      key={group}
+                      type="button"
+                      className="btn btn-sm btn-category-pill"
+                      onClick={() => {
+                        handleFilterChange(setSelectedCategory)(group)
+                        setSearchParams({})
+                      }}
+                    >
+                      {group}
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-category-pill"
+                    onClick={handleClearFilters}
+                  >
+                    All Shop
+                  </button>
+                </div>
+              </div>
+
               <button
                 type="button"
-                className="btn btn-primary"
+                className="btn btn-primary btn-clear-empty"
                 onClick={handleClearFilters}
               >
-                Clear Filters
+                Clear All Filters
               </button>
             </div>
           )}

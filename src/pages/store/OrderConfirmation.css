@@ -1,0 +1,260 @@
+/* ============================================================
+   Order Confirmation page styles
+   ============================================================ */
+
+.confirmation-header {
+  max-width: 650px;
+  margin: 0 auto;
+}
+
+.success-icon-circle {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background-color: #10b981;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  box-shadow: 0 10px 25px rgba(16, 185, 129, 0.25);
+}
+
+.success-icon {
+  font-size: 2.2rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.confirmation-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: #111827;
+}
+
+.confirmation-subtitle {
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+.confirmation-card {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 1.5rem;
+}
+
+.delivery-highlight-date {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #059669;
+}
+
+/* Progress Tracker */
+.order-progress-tracker {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.progress-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  position: relative;
+  z-index: 2;
+}
+
+.step-circle {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: #f3f4f6;
+  border: 2px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #6b7280;
+}
+
+.step-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #6b7280;
+}
+
+.progress-step--completed .step-circle {
+  background-color: #4f46e5;
+  border-color: #4f46e5;
+  color: #ffffff;
+}
+
+.progress-step--completed .step-name {
+  color: #4f46e5;
+}
+
+.progress-step--active .step-circle {
+  background-color: #e0e7ff;
+  border-color: #4f46e5;
+  color: #4f46e5;
+}
+
+.progress-step--active .step-name {
+  color: #4f46e5;
+}
+
+.progress-track {
+  flex: 1;
+  height: 3px;
+  background-color: #e5e7eb;
+  margin: 0 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.progress-track--active {
+  background-color: #4f46e5;
+}
+
+.section-subheading {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  color: #6b7280;
+}
+
+.address-text {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  color: #374151;
+}
+
+.btn-continue-shopping {
+  background-color: #4f46e5;
+  border-color: #4f46e5;
+  padding: 0.65rem 1.75rem;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background-color 0.15s ease;
+}
+
+.btn-continue-shopping:hover {
+  background-color: #4338ca;
+  border-color: #4338ca;
+}
+
+.btn-order-history {
+  border-color: #a5b4fc;
+  color: #4f46e5;
+  padding: 0.65rem 1.75rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background-color: #ffffff;
+}
+
+.btn-order-history:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  border-color: #c7d2fe;
+}
+
+/* Ordered Items List */
+.ordered-items-list {
+  max-height: 260px;
+  overflow-y: auto;
+}
+
+.ordered-item-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.ordered-item-row:last-child {
+  border-bottom: none;
+}
+
+.ordered-item-thumb {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+  border-radius: 8px;
+  background-color: #f9fafb;
+  padding: 4px;
+  border: 1px solid #f3f4f6;
+  flex-shrink: 0;
+}
+
+.ordered-item-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ordered-item-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #111827;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ordered-item-price {
+  font-weight: 700;
+  color: #4f46e5;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+
+/* Need Help Banner */
+.help-support-banner {
+  background-color: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+}
+
+.help-icon-circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: #10b981;
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.help-banner-title {
+  font-weight: 700;
+  color: #065f46;
+  font-size: 0.95rem;
+}
+
+.help-banner-text {
+  color: #047857;
+  font-size: 0.85rem;
+}
+
+.btn-contact-support {
+  background-color: #065f46;
+  border-color: #065f46;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.55rem 1.25rem;
+  border-radius: 8px;
+  transition: background-color 0.15s ease;
+}
+
+.btn-contact-support:hover {
+  background-color: #044e3b;
+  color: #ffffff;
+}
