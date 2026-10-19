@@ -1,0 +1,195 @@
+﻿================================================================================
+PROJECT CONTEXT — E-Commerce Frontend
+Last updated: 2026-10-19
+================================================================================
+
+OVERVIEW
+--------
+This is a React e-commerce frontend project (course project).
+It is currently at the END of Phase 1 (Project Foundation).
+No real features have been implemented yet.
+The purpose of Phase 1 is only to establish a clean, working base.
+
+TECH STACK
+----------
+- Vite (v8) + React (v19)
+- Plain JavaScript + JSX  (NO TypeScript)
+- React Router DOM v7
+- React Bootstrap v2 + Bootstrap v5 CSS
+- Axios v1  (installed but NOT used yet — will be used directly in components later)
+- Linter: oxlint
+- NO Redux, NO Context, NO custom hooks, NO service layer
+
+PROJECT LOCATION
+----------------
+d:\Courses\AIMIT\E-commerce\ecommerce-frontend\
+
+CURRENT SRC FOLDER STRUCTURE
+-----------------------------
+src/
++-- components/              <- empty, kept for future shared components
++-- layouts/
+|   +-- StoreLayout.jsx      <- temporary navbar for store routes
+|   +-- DashboardLayout.jsx  <- temporary sidebar for dashboard routes
++-- pages/
+|   +-- auth/
+|   |   +-- Login.jsx
+|   |   +-- Register.jsx
+|   +-- store/
+|   |   +-- Home.jsx
+|   |   +-- Products.jsx
+|   |   +-- ProductDetails.jsx   <- uses useParams to display product ID
+|   |   +-- Cart.jsx
+|   |   +-- Profile.jsx
+|   +-- dashboard/
+|   |   +-- Overview.jsx
+|   |   +-- ProductsAdmin.jsx
+|   |   +-- CartsAdmin.jsx
+|   |   +-- UsersAdmin.jsx
+|   +-- NotFound.jsx             <- shows 404, has Link back to /
++-- assets/
+|   +-- hero.png
++-- App.jsx                  <- contains ALL routes inline (no separate routes file)
++-- index.css                <- empty
++-- main.jsx                 <- BrowserRouter + StrictMode + Bootstrap CSS import
+
+
+KEY FILES CONTENT SUMMARY
+--------------------------
+
+main.jsx:
+  - Imports React, ReactDOM, BrowserRouter from react-router-dom
+  - Imports 'bootstrap/dist/css/bootstrap.min.css'
+  - Imports App from './App.jsx'
+  - Renders: <StrictMode><BrowserRouter><App /></BrowserRouter></StrictMode>
+
+App.jsx (all routes are here):
+  PUBLIC (no layout):
+    /login        -> Login
+    /register     -> Register
+
+  STORE (wrapped in StoreLayout which renders Outlet):
+    /             -> Home  (index route)
+    /products     -> Products
+    /products/:id -> ProductDetails
+    /cart         -> Cart
+    /profile      -> Profile
+
+  DASHBOARD (wrapped in DashboardLayout which renders Outlet):
+    /dashboard           -> Overview
+    /dashboard/products  -> ProductsAdmin
+    /dashboard/carts     -> CartsAdmin
+    /dashboard/users     -> UsersAdmin
+
+  FALLBACK:
+    *             -> NotFound
+
+vite.config.js:
+  - Only has the React plugin
+  - NO path alias (@ alias was removed in this cleanup session)
+
+StoreLayout.jsx:
+  - React Bootstrap Navbar (bg="dark" variant="dark")
+  - Nav links using: <Nav.Link as={NavLink} to="...">
+  - Links: Home, Products, Cart, Profile, Dashboard, Login, Register
+  - Renders <Outlet /> below the Navbar
+  - Comment at top: // Temporary navigation for testing the routes
+
+DashboardLayout.jsx:
+  - React Bootstrap Nav (flex-column) acting as a sidebar (Col md=2)
+  - Links: Overview, Products, Carts, Users, Store
+  - Renders <Outlet /> in the main content area (Col md=10)
+  - Comment at top: // Temporary dashboard navigation
+
+All placeholder pages follow this exact shape:
+  import { Container } from 'react-bootstrap'
+  function PageName() {
+    return (
+      <Container className="py-4">
+        <h1>Page Name</h1>
+        <p className="text-muted">Placeholder - will be implemented in a later phase.</p>
+      </Container>
+    )
+  }
+  export default PageName
+
+ProductDetails.jsx additionally:
+  - Imports useParams from react-router-dom
+  - const { id } = useParams()
+  - Displays the product ID on the page to verify dynamic routing works
+
+NotFound.jsx:
+  - Displays: 404 - Page Not Found
+  - Has a React Router <Link to="/">Back to Home</Link>
+
+
+WHAT WAS CLEANED UP IN THIS SESSION (the refactor commit)
+----------------------------------------------------------
+REMOVED FILES/FOLDERS:
+  - jsconfig.json                  (was only for @ alias)
+  - .env                           (only had VITE_API_BASE_URL=https://dummyjson.com)
+  - .env.example                   (same)
+  - src/api/axiosInstance.js       (premature axios instance with interceptor TODOs)
+  - src/api/                       (folder became empty)
+  - src/routes/AppRoutes.jsx       (routes moved directly into App.jsx)
+  - src/routes/ProtectedRoute.jsx  (fake pass-through Outlet, no real auth yet)
+  - src/routes/                    (folder became empty)
+  - src/context/                   (empty, only had .gitkeep)
+  - src/hooks/                     (empty, only had .gitkeep)
+  - src/utils/                     (empty, only had .gitkeep)
+  - src/components/.gitkeep        (folder kept, gitkeep file removed)
+  - src/assets/vite.svg            (Vite boilerplate, unused)
+
+MODIFIED FILES:
+  - vite.config.js       -> removed @ alias (resolve.alias block + node:url/path imports)
+  - src/App.jsx          -> rewrote: inline routes, normal relative imports, no AppRoutes
+  - StoreLayout.jsx      -> removed TODO Phase comment, content unchanged
+  - DashboardLayout.jsx  -> removed TODO Phase comment, added missing "Store" link to /
+
+
+CODING STYLE RULES THIS PROJECT FOLLOWS
+-----------------------------------------
+- Normal relative imports ONLY: ./pages/Home  or  ../components/Navbar
+- NO @ alias
+- NO separate routes file (everything in App.jsx)
+- NO ProtectedRoute until real auth is implemented
+- NO Axios instance or interceptors until a real API call is needed
+- NO Context until Context is actually implemented
+- NO Redux, NO custom hooks, NO utils layer, NO service layer
+- API calls will be written DIRECTLY inside components using axios when needed
+- Style: beginner-friendly, direct, easy to read and trace for a React student
+- Functional components only, no class components
+
+
+BUILD / LINT STATUS (as of this session)
+-----------------------------------------
+  npm run lint  -> 0 warnings, 0 errors (17 files, 104 rules, oxlint)
+  npm run build -> SUCCESS (Vite v8, 345 modules, 721ms)
+  npm run dev   -> runs on http://localhost:5173/
+
+
+GIT STATUS
+-----------
+  Branch       : master
+  Last commit  : a6e47ba
+  Message      : "refactor: simplify project foundation to match course style"
+  Working tree : clean
+  No remote, no push
+
+
+WHAT COMES NEXT (Phase 2+ - NOT done yet)
+-------------------------------------------
+- Products listing page (axios call directly in Products.jsx)
+- Product Details page  (axios call directly in ProductDetails.jsx)
+- Authentication        (Login + Register forms with real API)
+- ProtectedRoute        (only after real token/auth logic exists)
+- Cart logic
+- User Profile
+- Dashboard admin pages
+- Context               (only when actually needed for shared state)
+- Real Navbar + Footer  (replacing the temporary navigation)
+
+
+================================================================================
+END OF CONTEXT FILE
+================================================================================

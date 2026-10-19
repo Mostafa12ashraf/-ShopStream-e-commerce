@@ -1,0 +1,137 @@
+/* ============================================================
+   Global styles & shared Store UI (Navbar + Footer)
+   ============================================================ */
+
+/* ---------- Page background ---------- */
+body {
+  background-color: #f0f4f8;
+}
+
+/* ============================================================
+   STORE NAVBAR
+   ============================================================ */
+.store-navbar {
+  background-color: #ffffff !important;
+  border-bottom: 1px solid #e5e7eb;
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+}
+
+.store-brand {
+  color: #4f46e5 !important;
+  font-weight: 700;
+  font-size: 1.25rem;
+  letter-spacing: -0.01em;
+  text-decoration: none;
+}
+
+.store-navbar .nav-link {
+  color: #374151 !important;
+  font-weight: 500;
+  padding: 0.5rem 0.9rem !important;
+  position: relative;
+  transition: color 0.15s;
+}
+
+.store-navbar .nav-link:hover {
+  color: #4f46e5 !important;
+}
+
+/* Active link: purple text + underline */
+.store-navbar .nav-link.active {
+  color: #4f46e5 !important;
+  font-weight: 600;
+}
+
+.store-navbar .nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0.9rem;
+  right: 0.9rem;
+  height: 2px;
+  background-color: #4f46e5;
+  border-radius: 2px;
+}
+
+/* Cart + Profile icon links */
+.store-nav-icons {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.store-icon-link {
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: #374151;
+  padding: 0.4rem;
+  border-radius: 6px;
+  transition: color 0.15s, background-color 0.15s;
+  line-height: 1;
+}
+
+.store-icon-link:hover {
+  color: #4f46e5;
+  background-color: #f5f3ff;
+}
+
+/* ============================================================
+   STORE FOOTER
+   ============================================================ */
+.store-footer {
+  background-color: #e8edf5;
+  border-top: 1px solid #d1d9e6;
+  margin-top: 3rem;
+}
+
+.store-footer__brand {
+  color: #4f46e5;
+  font-weight: 700;
+  font-size: 1.1rem;
+  margin-bottom: 0.2rem;
+}
+
+.store-footer__copy {
+  color: #6b7280;
+  font-size: 0.85rem;
+  margin-bottom: 0;
+}
+
+.store-footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem 1.5rem;
+  justify-content: center;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.store-footer__links a {
+  color: #4b5563;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.15s;
+}
+
+.store-footer__links a:hover {
+  color: #4f46e5;
+}
+
+.store-footer__icon {
+  font-size: 1.2rem;
+  margin-left: 1rem;
+  color: #6b7280;
+}
+
+@media (max-width: 768px) {
+  .store-footer .text-md-end {
+    text-align: left !important;
+    margin-top: 0.5rem;
+  }
+
+  .store-footer__links {
+    justify-content: flex-start;
+  }
+}
