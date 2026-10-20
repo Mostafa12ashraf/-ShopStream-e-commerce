@@ -8,6 +8,17 @@ body {
   color: #111827;
 }
 
+/* ---------- Store Layout Full-Height Wrapper ---------- */
+.store-layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.store-main {
+  flex: 1;
+}
+
 /* ============================================================
    STORE NAVBAR
    ============================================================ */

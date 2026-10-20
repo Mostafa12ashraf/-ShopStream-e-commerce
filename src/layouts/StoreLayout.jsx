@@ -4,11 +4,13 @@ import StoreFooter from '../components/StoreFooter'
 
 function StoreLayout() {
   return (
-    <>
+    <div className="store-layout">
       <StoreNavbar />
-      <Outlet />
+      <main className="store-main">
+        <Outlet />
+      </main>
       <StoreFooter />
-    </>
+    </div>
   )
 }
 

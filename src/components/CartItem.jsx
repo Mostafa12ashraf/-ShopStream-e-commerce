@@ -30,7 +30,7 @@ function CartItem({ item, onIncrease, onDecrease, onRemove }) {
               type="button"
               className="cart-qty-btn"
               onClick={() => onIncrease(id)}
-              disabled={Boolean(stock && quantity >= stock)}
+              disabled={typeof stock === 'number' && quantity >= stock}
               aria-label="Increase quantity"
             >
               +

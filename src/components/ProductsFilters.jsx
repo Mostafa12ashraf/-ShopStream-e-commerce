@@ -7,7 +7,7 @@ function ProductsFilters({
   onClearFilters,
 }) {
   return (
-    <aside className="products-filters">
+    <aside id="categories" className="products-filters">
       {/* CATEGORY FILTER */}
       <div className="filter-section">
         <p className="filter-heading">CATEGORY</p>

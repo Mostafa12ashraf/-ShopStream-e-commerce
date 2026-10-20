@@ -90,7 +90,7 @@ function StoreNavbar() {
             <Nav.Link as={NavLink} to="/products">
               Products
             </Nav.Link>
-            <Nav.Link as={NavLink} to="/products">
+            <Nav.Link as={Link} to="/products#categories">
               Categories
             </Nav.Link>
           </Nav>

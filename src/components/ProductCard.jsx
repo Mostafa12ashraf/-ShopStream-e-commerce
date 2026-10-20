@@ -13,10 +13,6 @@ function ProductCard({ product, variant = 'default' }) {
     ? (price / (1 - discountPercentage / 100)).toFixed(2)
     : null
 
-  // Show "NEW" badge on top-rated items without a discount to match Figma
-  const isNew = !hasDiscount && rating >= 4.8
-  const isBestSeller = rating >= 4.5
-
   // Check for out-of-stock condition
   const isOutOfStock = product.stock === 0
 
@@ -34,16 +30,6 @@ function ProductCard({ product, variant = 'default' }) {
     return (
       <Card className="product-card product-card--home h-100">
         <Link to={`/products/${id}`} className="product-img-box position-relative">
-          {isBestSeller ? (
-            <span className="product-badge product-badge--bestseller">
-              BEST SELLER
-            </span>
-          ) : isNew ? (
-            <span className="product-badge product-badge--new-pill">
-              NEW
-            </span>
-          ) : null}
-
           <img
             src={thumbnail}
             alt={title}
@@ -83,11 +69,6 @@ function ProductCard({ product, variant = 'default' }) {
       {hasDiscount && (
         <span className="product-badge product-badge--discount">
           -{Math.round(discountPercentage)}%
-        </span>
-      )}
-      {isNew && (
-        <span className="product-badge product-badge--new">
-          NEW
         </span>
       )}
 

@@ -12,6 +12,10 @@ const limit = 12
 function Products() {
   const [searchParams, setSearchParams] = useSearchParams()
 
+  // ── Single Source of Truth for Search and Category ──────────
+  const search = searchParams.get('search') || ''
+  const selectedCategory = searchParams.get('category') || ''
+
   // ── Data state ──────────────────────────────────────────────
   const [products, setProducts] = useState([])
   const [categories, setCategories] = useState([])
@@ -20,32 +24,17 @@ function Products() {
   const [retryCount, setRetryCount] = useState(0)
   const [total, setTotal] = useState(0)
 
-  // ── Search & Filter state ────────────────────────────────────
-  const search = searchParams.get('search') || ''
-  const categoryFromUrl = searchParams.get('category') || ''
-  const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl)
+  // ── Sorting and Pagination state ────────────────────────────
   const [sortOption, setSortOption] = useState('default')
   const [sortBy, setSortBy] = useState('')
   const [order, setOrder] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
 
-  // Sync category from URL if changed externally
-  const [prevCategoryParam, setPrevCategoryParam] = useState(categoryFromUrl)
-  if (categoryFromUrl !== prevCategoryParam) {
-    setPrevCategoryParam(categoryFromUrl)
-    setSelectedCategory(categoryFromUrl)
+  // Reset pagination to page 1 whenever the search parameter changes
+  useEffect(() => {
+    // oxlint-disable-next-line
     setCurrentPage(1)
-  }
-
-  // Reset page to 1 when search changes
-  const [prevSearch, setPrevSearch] = useState(search)
-  if (search !== prevSearch) {
-    setPrevSearch(search)
-    setCurrentPage(1)
-    if (search.trim()) {
-      setSelectedCategory('')
-    }
-  }
+  }, [search])
 
   // ── 1. Fetch Categories once on mount ────────────────────────
   useEffect(() => {
@@ -115,8 +104,12 @@ function Products() {
         const response = await axios.get(endpoint)
 
         if (isMounted) {
+          const responseTotal = response.data.total || 0
           setProducts(response.data.products || [])
-          setTotal(response.data.total || 0)
+          setTotal(responseTotal)
+          if (responseTotal > 0 && (currentPage - 1) * limit >= responseTotal) {
+            setCurrentPage(1)
+          }
         }
       } catch (err) {
         if (isMounted) {
@@ -138,11 +131,13 @@ function Products() {
 
   // ── Named Handlers ───────────────────────────────────────────
   function handleCategoryChange(slug) {
-    const nextCategory = selectedCategory === slug ? '' : slug
-    setSelectedCategory(nextCategory)
     setCurrentPage(1)
-    if (search) {
+    if (selectedCategory === slug) {
+      // Toggle off: remove category parameter
       setSearchParams({})
+    } else {
+      // Toggle on: set category and clear search parameter
+      setSearchParams({ category: slug })
     }
   }
 
@@ -174,7 +169,6 @@ function Products() {
 
   function handleClearFilters() {
     setSearchParams({})
-    setSelectedCategory('')
     setSortOption('default')
     setSortBy('')
     setOrder('')
