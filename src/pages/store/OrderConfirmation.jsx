@@ -46,7 +46,7 @@ function OrderConfirmation() {
   const customerName = `${shipping.firstName || ''} ${shipping.lastName || ''}`.trim() || 'Customer'
 
   return (
-    <Container fluid="xl" className="confirmation-page py-4">
+    <Container fluid className="confirmation-page py-4">
       {/* ── Success Header ── */}
       <div className="confirmation-header text-center mb-5">
         <div className="success-icon-circle mb-3">
@@ -119,21 +119,6 @@ function OrderConfirmation() {
               </Col>
             </Row>
           </div>
-
-          {/* Action Buttons */}
-          <div className="d-flex gap-3 flex-wrap">
-            <Link to="/products" className="btn btn-primary btn-continue-shopping">
-              Continue Shopping
-            </Link>
-            <button
-              type="button"
-              className="btn btn-outline-secondary btn-order-history"
-              disabled
-              title="Order history is not implemented in this demo"
-            >
-              View Order History
-            </button>
-          </div>
         </Col>
 
         {/* Right Column: Order Summary */}
@@ -186,6 +171,21 @@ function OrderConfirmation() {
           </div>
         </Col>
       </Row>
+
+      {/* Action Buttons Centered Below Cards (Figma Page 3) */}
+      <div className="d-flex justify-content-center gap-3 my-4 flex-wrap">
+        <Link to="/products" className="btn btn-primary btn-continue-shopping">
+          Continue Shopping
+        </Link>
+        <button
+          type="button"
+          className="btn btn-outline-secondary btn-order-history"
+          disabled
+          title="Order history is not implemented in this demo"
+        >
+          View Order History
+        </button>
+      </div>
 
       {/* ── Need Help Banner ── */}
       <div className="help-support-banner d-flex justify-content-between align-items-center flex-wrap gap-3">

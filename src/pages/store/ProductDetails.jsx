@@ -154,7 +154,7 @@ function ProductDetails() {
   }
 
   return (
-    <Container fluid="xl" className="product-details-page py-4">
+    <Container fluid className="product-details-page py-4">
       {/* ── Breadcrumb ── */}
       <nav aria-label="breadcrumb" className="details-breadcrumb mb-4">
         <ol className="breadcrumb mb-0">

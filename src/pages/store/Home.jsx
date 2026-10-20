@@ -79,7 +79,7 @@ function Home() {
   const visibleProducts = products.slice(carouselIndex, carouselIndex + 4)
 
   return (
-    <Container fluid="xl" className="home-page">
+    <Container fluid className="home-page">
       {/* ── 1. Hero Section ── */}
       <section className="home-hero-section">
         <Row className="align-items-center g-4">
@@ -211,7 +211,7 @@ function Home() {
           <div>
             <h2 className="home-section-title">Featured Products</h2>
             <p className="home-section-subtitle">
-              The latest and greatest in tech innovation.
+              Explore our featured selection.
             </p>
           </div>
 

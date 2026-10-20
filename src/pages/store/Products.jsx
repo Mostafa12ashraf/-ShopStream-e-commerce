@@ -17,17 +17,19 @@ function Products() {
   const selectedCategory = searchParams.get('category') || ''
 
   // ── Data state ──────────────────────────────────────────────
-  const [products, setProducts] = useState([])
+  const [allProducts, setAllProducts] = useState([])
   const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [retryCount, setRetryCount] = useState(0)
-  const [total, setTotal] = useState(0)
+
+  // ── Filter states ───────────────────────────────────────────
+  const [maximumPrice, setMaximumPrice] = useState(null)
+  const [minimumRating, setMinimumRating] = useState(0)
+  const [selectedBrand, setSelectedBrand] = useState('all')
 
   // ── Sorting and Pagination state ────────────────────────────
   const [sortOption, setSortOption] = useState('default')
-  const [sortBy, setSortBy] = useState('')
-  const [order, setOrder] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
 
   // ── Reset pagination to page 1 whenever search or category changes ─
@@ -73,7 +75,7 @@ function Products() {
     }
   }, [])
 
-  // ── 2. Fetch Products with limit & skip pagination ───────────
+  // ── 2. Fetch Products for active scope (search / category / all) with limit=0 ──
   useEffect(() => {
     let isMounted = true
 
@@ -82,34 +84,24 @@ function Products() {
       setError(null)
 
       try {
-        const skip = (currentPage - 1) * limit
         let endpoint = ''
 
         if (search.trim()) {
           endpoint = `https://dummyjson.com/products/search?q=${encodeURIComponent(
             search.trim()
-          )}&limit=${limit}&skip=${skip}`
+          )}&limit=0`
         } else if (selectedCategory) {
           endpoint = `https://dummyjson.com/products/category/${encodeURIComponent(
             selectedCategory
-          )}?limit=${limit}&skip=${skip}`
+          )}?limit=0`
         } else {
-          endpoint = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`
-        }
-
-        if (sortBy && order) {
-          endpoint += `&sortBy=${encodeURIComponent(sortBy)}&order=${encodeURIComponent(order)}`
+          endpoint = 'https://dummyjson.com/products?limit=0'
         }
 
         const response = await axios.get(endpoint)
 
         if (isMounted) {
-          const responseTotal = response.data.total || 0
-          setProducts(response.data.products || [])
-          setTotal(responseTotal)
-          if (responseTotal > 0 && (currentPage - 1) * limit >= responseTotal) {
-            setCurrentPage(1)
-          }
+          setAllProducts(response.data.products || [])
         }
       } catch (err) {
         if (isMounted) {
@@ -127,11 +119,28 @@ function Products() {
     return () => {
       isMounted = false
     }
-  }, [search, selectedCategory, sortBy, order, currentPage, retryCount])
+  }, [search, selectedCategory, retryCount])
+
+  // ── Derived Catalog Values ──────────────────────────────────
+  const catalogMaxPrice =
+    allProducts.length > 0
+      ? Math.ceil(Math.max(...allProducts.map((p) => p.price)))
+      : 1000
+
+  const availableBrands = Array.from(
+    new Set(
+      allProducts
+        .map((p) => p.brand)
+        .filter((brand) => Boolean(brand && String(brand).trim()))
+    )
+  ).sort((a, b) => a.localeCompare(b))
 
   // ── Named Handlers ───────────────────────────────────────────
   function handleCategoryChange(slug) {
     setCurrentPage(1)
+    setMaximumPrice(null)
+    setMinimumRating(0)
+    setSelectedBrand('all')
     if (selectedCategory === slug) {
       // Toggle off: remove category parameter
       setSearchParams({})
@@ -141,24 +150,23 @@ function Products() {
     }
   }
 
+  function handlePriceChange(value) {
+    setMaximumPrice(value)
+    setCurrentPage(1)
+  }
+
+  function handleRatingChange(value) {
+    setMinimumRating(value)
+    setCurrentPage(1)
+  }
+
+  function handleBrandChange(value) {
+    setSelectedBrand(value)
+    setCurrentPage(1)
+  }
+
   function handleSortChange(value) {
     setSortOption(value)
-    if (value === 'price-asc') {
-      setSortBy('price')
-      setOrder('asc')
-    } else if (value === 'price-desc') {
-      setSortBy('price')
-      setOrder('desc')
-    } else if (value === 'rating-desc') {
-      setSortBy('rating')
-      setOrder('desc')
-    } else if (value === 'title-asc') {
-      setSortBy('title')
-      setOrder('asc')
-    } else {
-      setSortBy('')
-      setOrder('')
-    }
     setCurrentPage(1)
   }
 
@@ -170,8 +178,9 @@ function Products() {
   function handleClearFilters() {
     setSearchParams({})
     setSortOption('default')
-    setSortBy('')
-    setOrder('')
+    setMaximumPrice(null)
+    setMinimumRating(0)
+    setSelectedBrand('all')
     setCurrentPage(1)
   }
 
@@ -179,14 +188,46 @@ function Products() {
     setRetryCount((prev) => prev + 1)
   }
 
-  // ── Calculations for Result Counter and Pagination ──────────
+  // ── 1. Filter by Price, Rating, and Brand ───────────────────
+  const filteredProducts = allProducts.filter((product) => {
+    if (maximumPrice !== null && product.price > maximumPrice) {
+      return false
+    }
+    if (minimumRating > 0 && (product.rating || 0) < minimumRating) {
+      return false
+    }
+    if (selectedBrand && selectedBrand !== 'all' && product.brand !== selectedBrand) {
+      return false
+    }
+    return true
+  })
+
+  // ── 2. Sort Pipeline ─────────────────────────────────────────
+  const sortedProducts = [...filteredProducts]
+  if (sortOption === 'price-asc') {
+    sortedProducts.sort((a, b) => a.price - b.price)
+  } else if (sortOption === 'price-desc') {
+    sortedProducts.sort((a, b) => b.price - a.price)
+  } else if (sortOption === 'rating-desc') {
+    sortedProducts.sort((a, b) => b.rating - a.rating)
+  } else if (sortOption === 'title-asc') {
+    sortedProducts.sort((a, b) => a.title.localeCompare(b.title))
+  }
+
+  // ── 3. Pagination and Result Calculations ───────────────────
+  const total = sortedProducts.length
   const totalPages = Math.ceil(total / limit)
-  const startResult = total === 0 ? 0 : (currentPage - 1) * limit + 1
-  const endResult = Math.min((currentPage - 1) * limit + products.length, total)
+  const activePage = totalPages > 0 && currentPage > totalPages ? 1 : currentPage
+  const startResult = total === 0 ? 0 : (activePage - 1) * limit + 1
+  const endResult = Math.min((activePage - 1) * limit + limit, total)
+  const displayedProducts = sortedProducts.slice(
+    (activePage - 1) * limit,
+    activePage * limit
+  )
 
   // ── Derived Loading States ──────────────────────────────────
-  const isInitialLoading = loading && products.length === 0
-  const isUpdating = loading && products.length > 0
+  const isInitialLoading = loading && allProducts.length === 0
+  const isUpdating = loading && allProducts.length > 0
 
   // ── Heading Label ───────────────────────────────────────────
   const activeCategoryObj = categories.find((c) => c.slug === selectedCategory)
@@ -197,14 +238,22 @@ function Products() {
     : 'All Products'
 
   return (
-    <Container fluid="xl" className="products-page py-4">
-      <Row className="g-4">
+    <Container fluid className="products-page py-5">
+      <Row className="gx-5 gy-4">
         {/* ── Sidebar Filters (Permanently mounted to prevent layout shift) ── */}
         <Col xs={12} lg={3}>
           <ProductsFilters
             categories={categories}
             selectedCategory={selectedCategory}
             onCategoryChange={handleCategoryChange}
+            maximumPrice={maximumPrice}
+            catalogMaxPrice={catalogMaxPrice}
+            onPriceChange={handlePriceChange}
+            minimumRating={minimumRating}
+            onRatingChange={handleRatingChange}
+            selectedBrand={selectedBrand}
+            availableBrands={availableBrands}
+            onBrandChange={handleBrandChange}
             onClearFilters={handleClearFilters}
           />
         </Col>
@@ -212,9 +261,9 @@ function Products() {
         {/* ── Products Content Area ── */}
         <Col xs={12} lg={9}>
           {/* Header: Category title, result summary, and sort */}
-          <div className="products-area-header mb-4">
+          <div className="products-area-header mb-4 pt-1">
             <div>
-              <h4 className="products-heading mb-1">{headingLabel}</h4>
+              <h2 className="products-heading mb-1">{headingLabel}</h2>
               <p className="text-muted small mb-0 d-flex align-items-center">
                 {isInitialLoading
                   ? 'Loading products...'
@@ -361,10 +410,10 @@ function Products() {
               <Row
                 xs={1}
                 sm={2}
-                xl={3}
+                lg={3}
                 className={`g-4 ${isUpdating ? 'products-grid--updating' : ''}`}
               >
-                {products.map((product) => (
+                {displayedProducts.map((product) => (
                   <Col key={product.id}>
                     <ProductCard product={product} />
                   </Col>
@@ -374,7 +423,7 @@ function Products() {
               {/* Pagination */}
               <div className={`mt-5 pb-2 ${isUpdating ? 'products-grid--updating' : ''}`}>
                 <ProductsPagination
-                  currentPage={currentPage}
+                  currentPage={activePage}
                   totalPages={totalPages}
                   onPageChange={handlePageChange}
                 />

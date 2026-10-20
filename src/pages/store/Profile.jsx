@@ -124,7 +124,7 @@ function Profile() {
   const displayEmail = user?.email || 'julian.sterling@example.com'
 
   return (
-    <Container fluid="xl" className="profile-container-figma">
+    <Container fluid className="profile-container-figma">
       {error && (
         <Alert variant="warning" className="mb-4">
           {error}

@@ -22,19 +22,19 @@
    SIDEBAR FILTERS
    ============================================================ */
 .products-filters {
-  background-color: #ffffff;
-  border: 1px solid #e5e7eb;
-  border-radius: 12px;
-  padding: 1.5rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0.25rem 0.5rem 0 0;
+  box-shadow: none;
   position: sticky;
   top: 1.5rem;
 }
 
 .filter-section {
-  padding-bottom: 1.25rem;
-  margin-bottom: 1.25rem;
-  border-bottom: 1px solid #f3f4f6;
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 .filter-section:last-of-type {
@@ -53,29 +53,9 @@
 }
 
 .category-filter-list {
-  max-height: 400px;
-  overflow-y: auto;
-  padding-right: 0.35rem;
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-}
-
-.category-filter-list::-webkit-scrollbar {
-  width: 4px;
-}
-
-.category-filter-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.category-filter-list::-webkit-scrollbar-thumb {
-  background-color: #cbd5e1;
-  border-radius: 4px;
-}
-
-.category-filter-list::-webkit-scrollbar-thumb:hover {
-  background-color: #94a3b8;
+  gap: 0.65rem;
 }
 
 .filter-option {
@@ -93,6 +73,10 @@
   margin-top: 0;
   flex-shrink: 0;
   transition: background-color 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.filter-option input[type="radio"].form-check-input {
+  border-radius: 50%;
 }
 
 .filter-option .form-check-input:checked {
@@ -117,6 +101,59 @@
 
 .filter-option:hover .form-check-label {
   color: #111827;
+}
+
+/* ── Figma Price Slider ── */
+.price-range-wrapper {
+  padding: 0.25rem 0;
+}
+
+.price-active-val {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: #4338ca;
+}
+
+.figma-price-slider {
+  accent-color: #4338ca;
+  cursor: pointer;
+}
+
+.price-label-text {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #64748b;
+}
+
+/* ── Figma Rating Filter ── */
+.rating-stars-green {
+  color: #059669;
+  font-size: 1rem;
+  letter-spacing: 2px;
+}
+
+.rating-filter-label {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #374151;
+}
+
+/* ── Figma Brand Filter ── */
+.brand-filter-select {
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  color: #374151;
+  padding: 0.5rem 0.85rem;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: border-color 0.15s ease;
+}
+
+.brand-filter-select:focus {
+  border-color: #4338ca;
+  box-shadow: 0 0 0 3px rgba(67, 56, 202, 0.12);
+  outline: none;
 }
 
 .btn-clear-filters {
@@ -310,7 +347,22 @@
   border-color: #d1d5db;
 }
 
-/* Discount Badge */
+/* Figma Badges */
+.products-page .product-badge--new {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 3px 8px;
+  border-radius: 20px;
+  z-index: 2;
+  letter-spacing: 0.04em;
+  background-color: #10b981;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+}
+
 .products-page .product-badge--discount {
   position: absolute;
   top: 12px;
@@ -332,14 +384,15 @@
   background-color: #f9fafb;
   overflow: hidden;
   text-decoration: none;
+  border-bottom: 1px solid #f3f4f6;
 }
 
 .products-page .product-img {
-  height: 210px;
+  height: 220px;
   object-fit: contain;
   width: 100%;
-  padding: 1.25rem;
-  background-color: #f9fafb;
+  padding: 1.15rem;
+  background-color: #f8fafc;
   transition: transform 0.25s ease;
 }
 
@@ -349,7 +402,7 @@
 
 /* Card Body */
 .products-page .product-card .card-body {
-  padding: 1rem 1.25rem 1.25rem 1.25rem;
+  padding: 1rem 1.15rem 1.25rem 1.15rem;
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
@@ -377,11 +430,11 @@
 }
 
 .products-page .product-title-link:hover .product-title {
-  color: #4f46e5;
+  color: #4338ca;
 }
 
 .products-page .product-rating {
-  color: #10b981;
+  color: #059669;
   font-size: 0.875rem;
   font-weight: 700;
   white-space: nowrap;
@@ -390,7 +443,7 @@
 
 /* Description */
 .products-page .product-description {
-  font-size: 0.825rem;
+  font-size: 0.8125rem;
   line-height: 1.45;
   color: #6b7280;
   overflow: hidden;
@@ -404,35 +457,39 @@
 .products-page .product-price {
   color: #059669;
   font-weight: 700;
-  font-size: 1.15rem;
+  font-size: 1.1rem;
   letter-spacing: -0.01em;
+  line-height: 1.2;
 }
 
 .products-page .product-original-price {
+  display: block;
   color: #9ca3af;
-  font-size: 0.825rem;
+  font-size: 0.775rem;
   text-decoration: line-through;
-  margin-left: 6px;
+  margin-left: 0;
+  margin-top: 2px;
+  line-height: 1.1;
   font-weight: 500;
 }
 
 .products-page .btn-add {
-  background-color: #4f46e5;
-  border-color: #4f46e5;
+  background-color: #4338ca;
+  border-color: #4338ca;
   color: #ffffff;
   font-size: 0.825rem;
   font-weight: 600;
-  padding: 0.45rem 1rem;
+  padding: 0.45rem 1.1rem;
   border-radius: 8px;
   white-space: nowrap;
   transition: all 0.15s ease;
-  box-shadow: 0 1px 2px rgba(79, 70, 229, 0.2);
+  box-shadow: 0 1px 2px rgba(67, 56, 202, 0.2);
 }
 
 .products-page .btn-add:hover:not(:disabled) {
-  background-color: #4338ca;
-  border-color: #4338ca;
-  box-shadow: 0 4px 10px rgba(79, 70, 229, 0.3);
+  background-color: #3730a3;
+  border-color: #3730a3;
+  box-shadow: 0 4px 10px rgba(67, 56, 202, 0.3);
   transform: translateY(-1px);
 }
 

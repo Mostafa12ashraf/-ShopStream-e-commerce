@@ -37,13 +37,13 @@ function ProductCard({ product, variant = 'default' }) {
           />
         </Link>
 
-        <Card.Body className="p-3 d-flex flex-column">
+        <Card.Body className="p-3 d-flex flex-column flex-grow-1">
           <span className="product-category-tag">
-            {category ? category.replace(/-/g, ' ').toUpperCase() : 'TECH'}
+            {category ? category.replace(/-/g, ' ').toUpperCase() : 'GENERAL'}
           </span>
 
-          <Link to={`/products/${id}`} className="product-title-link mb-2">
-            <h6 className="product-title-home mb-0" title={title}>{title}</h6>
+          <Link to={`/products/${id}`} className="product-title-link mb-2 text-decoration-none">
+            <h6 className="product-title-home mb-0 text-decoration-none" title={title}>{title}</h6>
           </Link>
 
           <div className="d-flex justify-content-between align-items-center mt-auto pt-2">
@@ -56,7 +56,7 @@ function ProductCard({ product, variant = 'default' }) {
               aria-label={isOutOfStock ? `${title} is out of stock` : `Add ${title} to cart`}
               title={isOutOfStock ? 'Out of stock' : 'Add to cart'}
             >
-              {isOutOfStock ? '✕' : '🛒+'}
+              {isOutOfStock ? '✕' : '🛒'}
             </button>
           </div>
         </Card.Body>
@@ -66,6 +66,7 @@ function ProductCard({ product, variant = 'default' }) {
 
   return (
     <Card className="product-card h-100">
+      {/* Real Discount Badge on top-right */}
       {hasDiscount && (
         <span className="product-badge product-badge--discount">
           -{Math.round(discountPercentage)}%

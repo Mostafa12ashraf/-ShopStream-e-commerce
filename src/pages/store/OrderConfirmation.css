@@ -87,23 +87,23 @@
 }
 
 .progress-step--completed .step-circle {
-  background-color: #4f46e5;
-  border-color: #4f46e5;
+  background-color: #4338ca;
+  border-color: #4338ca;
   color: #ffffff;
 }
 
 .progress-step--completed .step-name {
-  color: #4f46e5;
+  color: #4338ca;
 }
 
 .progress-step--active .step-circle {
   background-color: #e0e7ff;
-  border-color: #4f46e5;
-  color: #4f46e5;
+  border-color: #4338ca;
+  color: #4338ca;
 }
 
 .progress-step--active .step-name {
-  color: #4f46e5;
+  color: #4338ca;
 }
 
 .progress-track {
@@ -115,7 +115,7 @@
 }
 
 .progress-track--active {
-  background-color: #4f46e5;
+  background-color: #4338ca;
 }
 
 .section-subheading {
@@ -132,8 +132,8 @@
 }
 
 .btn-continue-shopping {
-  background-color: #4f46e5;
-  border-color: #4f46e5;
+  background-color: #4338ca;
+  border-color: #4338ca;
   padding: 0.65rem 1.75rem;
   font-weight: 600;
   border-radius: 8px;
@@ -141,13 +141,13 @@
 }
 
 .btn-continue-shopping:hover {
-  background-color: #4338ca;
-  border-color: #4338ca;
+  background-color: #3730a3;
+  border-color: #3730a3;
 }
 
 .btn-order-history {
   border-color: #a5b4fc;
-  color: #4f46e5;
+  color: #4338ca;
   padding: 0.65rem 1.75rem;
   font-weight: 600;
   border-radius: 8px;
@@ -205,7 +205,7 @@
 
 .ordered-item-price {
   font-weight: 700;
-  color: #4f46e5;
+  color: #4338ca;
   font-size: 0.95rem;
   flex-shrink: 0;
 }

@@ -58,7 +58,7 @@
 }
 
 .profile-nav-item--active {
-  background-color: #312cb8 !important;
+  background-color: #4338ca !important;
   color: #ffffff !important;
 }
 
@@ -107,7 +107,7 @@
   right: 0;
   width: 28px;
   height: 28px;
-  background-color: #3d35ee;
+  background-color: #4338ca;
   color: #ffffff;
   border-radius: 50%;
   border: 2px solid #ffffff;
@@ -154,8 +154,8 @@
 }
 
 .btn-profile-primary {
-  background-color: #312cb8;
-  border-color: #312cb8;
+  background-color: #4338ca;
+  border-color: #4338ca;
   color: #ffffff;
   font-weight: 600;
   font-size: 0.875rem;
@@ -165,15 +165,15 @@
 }
 
 .btn-profile-primary:hover {
-  background-color: #262299;
-  border-color: #262299;
+  background-color: #3730a3;
+  border-color: #3730a3;
   color: #ffffff;
 }
 
 .btn-profile-outline {
   background-color: #ffffff;
   border: 1px solid #c7d2fe;
-  color: #312cb8;
+  color: #4338ca;
   font-weight: 600;
   font-size: 0.875rem;
   padding: 0.6rem 1.4rem;
@@ -331,7 +331,7 @@
 .order-item-price {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #3d35ee;
+  color: #4338ca;
   margin-bottom: 0.2rem;
 }
 
@@ -347,7 +347,7 @@
 
 .order-badge-shipped {
   background-color: #e0e7ff;
-  color: #312cb8;
+  color: #4338ca;
   font-size: 0.72rem;
   font-weight: 700;
   padding: 0.25rem 0.65rem;
@@ -367,7 +367,7 @@
 
 .order-action-link {
   font-size: 0.775rem;
-  color: #3d35ee;
+  color: #4338ca;
   font-weight: 600;
   text-decoration: none;
   display: block;
@@ -375,5 +375,6 @@
 }
 
 .order-action-link:hover {
+  color: #312e81;
   text-decoration: underline;
 }

@@ -75,7 +75,7 @@ function StoreNavbar() {
 
   return (
     <Navbar expand="lg" className="store-navbar">
-      <Container>
+      <Container fluid>
         <Navbar.Brand as={Link} to="/" className="store-brand">
           ShopStream
         </Navbar.Brand>

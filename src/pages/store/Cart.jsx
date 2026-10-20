@@ -44,6 +44,69 @@ function Cart() {
           <Link to="/products" className="btn btn-primary btn-start-shopping">
             Start Shopping
           </Link>
+          <button
+            type="button"
+            className="btn btn-outline-secondary btn-view-saved"
+            disabled
+            title="Saved items feature is not available in this demo"
+          >
+            View Saved Items (Unavailable)
+          </button>
+        </div>
+
+        {/* Assistance section matching PDF Page 6 lower section */}
+        <div className="empty-cart-assistance mt-5 pt-4 border-top w-100" style={{ maxWidth: '780px' }}>
+          <Row className="g-3 justify-content-center text-start mb-4">
+            <Col xs={12} md={6}>
+              <div className="empty-help-card h-100">
+                <h6 className="fw-bold text-primary mb-2">Looking for ideas?</h6>
+                <ul className="empty-help-list mb-0">
+                  <li>✓ Explore our trending categories.</li>
+                  <li>✓ Discover high-rated featured products.</li>
+                  <li>✓ Use the top search bar to find specific items.</li>
+                </ul>
+              </div>
+            </Col>
+            <Col xs={12} md={6}>
+              <div className="empty-chat-card h-100 d-flex flex-column justify-content-between">
+                <div>
+                  <h6 className="fw-bold text-success mb-1">Live Support (Demo)</h6>
+                  <p className="small text-muted mb-2">
+                    Live chat support is a demo feature and is currently offline in this project.
+                  </p>
+                </div>
+                <button
+                  type="button"
+                  className="btn btn-sm btn-success btn-chat-support w-100"
+                  disabled
+                  title="Live chat support is not available in this educational demo"
+                >
+                  💬 Live Chat (Unavailable)
+                </button>
+              </div>
+            </Col>
+          </Row>
+
+          <div className="popular-categories-section">
+            <p className="text-muted small fw-bold mb-2">BROWSE POPULAR CATEGORIES</p>
+            <div className="d-flex flex-wrap justify-content-center gap-2">
+              <Link to="/products?category=smartphones" className="btn btn-sm btn-category-pill">
+                Smartphones
+              </Link>
+              <Link to="/products?category=laptops" className="btn btn-sm btn-category-pill">
+                Laptops
+              </Link>
+              <Link to="/products?category=fragrances" className="btn btn-sm btn-category-pill">
+                Fragrances
+              </Link>
+              <Link to="/products?category=groceries" className="btn btn-sm btn-category-pill">
+                Groceries
+              </Link>
+              <Link to="/products" className="btn btn-sm btn-category-pill">
+                All Products
+              </Link>
+            </div>
+          </div>
         </div>
       </Container>
     )
@@ -51,7 +114,7 @@ function Cart() {
 
   // ── Cart with Items ──
   return (
-    <Container fluid="xl" className="cart-page py-4">
+    <Container fluid className="cart-page py-4">
       <h2 className="cart-page-title mb-4">Your Shopping Cart</h2>
 
       <Row className="g-4 align-items-start">
