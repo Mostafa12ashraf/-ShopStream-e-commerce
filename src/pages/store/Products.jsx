@@ -30,11 +30,11 @@ function Products() {
   const [order, setOrder] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
 
-  // Reset pagination to page 1 whenever the search parameter changes
+  // ── Reset pagination to page 1 whenever search or category changes ─
   useEffect(() => {
-    // oxlint-disable-next-line
+    // oxlint-disable-next-line react/set-state-in-effect
     setCurrentPage(1)
-  }, [search])
+  }, [search, selectedCategory])
 
   // ── 1. Fetch Categories once on mount ────────────────────────
   useEffect(() => {
@@ -92,7 +92,7 @@ function Products() {
         } else if (selectedCategory) {
           endpoint = `https://dummyjson.com/products/category/${encodeURIComponent(
             selectedCategory
-          )}&limit=${limit}&skip=${skip}`
+          )}?limit=${limit}&skip=${skip}`
         } else {
           endpoint = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`
         }
@@ -192,39 +192,10 @@ function Products() {
     ? activeCategoryObj.name
     : 'All Products'
 
-  // ── Loading state ───────────────────────────────────────────
-  if (loading) {
-    return (
-      <div className="products-loading">
-        <Spinner animation="border" variant="primary" role="status" />
-        <p className="mt-3 text-muted">Loading products...</p>
-      </div>
-    )
-  }
-
-  // ── Error state ─────────────────────────────────────────────
-  if (error) {
-    return (
-      <Container className="py-5">
-        <Alert variant="danger">
-          <Alert.Heading>Something went wrong</Alert.Heading>
-          <p className="mb-3">{error}</p>
-          <button
-            type="button"
-            className="btn btn-danger"
-            onClick={handleRetry}
-          >
-            Retry
-          </button>
-        </Alert>
-      </Container>
-    )
-  }
-
   return (
     <Container fluid="xl" className="products-page py-4">
       <Row className="g-4">
-        {/* ── Sidebar Filters ── */}
+        {/* ── Sidebar Filters (Permanently mounted to prevent layout shift) ── */}
         <Col xs={12} lg={3}>
           <ProductsFilters
             categories={categories}
@@ -241,7 +212,9 @@ function Products() {
             <div>
               <h4 className="products-heading mb-1">{headingLabel}</h4>
               <p className="text-muted small mb-0">
-                {total === 0
+                {loading
+                  ? 'Loading products...'
+                  : total === 0
                   ? 'Showing 0 results'
                   : `Showing ${startResult}-${endResult} of ${total} results`}
               </p>
@@ -266,8 +239,31 @@ function Products() {
             </div>
           </div>
 
+          {/* Loading state inside products area */}
+          {loading && (
+            <div className="products-loading">
+              <Spinner animation="border" variant="primary" role="status" />
+              <p className="mt-3 text-muted">Loading products...</p>
+            </div>
+          )}
+
+          {/* Error state inside products area */}
+          {!loading && error && (
+            <Alert variant="danger" className="my-4">
+              <Alert.Heading>Something went wrong</Alert.Heading>
+              <p className="mb-3">{error}</p>
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={handleRetry}
+              >
+                Retry
+              </button>
+            </Alert>
+          )}
+
           {/* Empty results state */}
-          {total === 0 && (
+          {!loading && !error && total === 0 && (
             <div className="products-empty-enhanced text-center py-4">
               <div className="no-results-icon-box mb-3">
                 <span className="no-results-icon" aria-hidden="true">🔍</span>
@@ -350,7 +346,7 @@ function Products() {
           )}
 
           {/* Products grid */}
-          {total > 0 && (
+          {!loading && !error && total > 0 && (
             <>
               <Row xs={1} sm={2} xl={3} className="g-4">
                 {products.map((product) => (
