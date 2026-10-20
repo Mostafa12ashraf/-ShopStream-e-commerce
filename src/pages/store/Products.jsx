@@ -184,6 +184,10 @@ function Products() {
   const startResult = total === 0 ? 0 : (currentPage - 1) * limit + 1
   const endResult = Math.min((currentPage - 1) * limit + products.length, total)
 
+  // ── Derived Loading States ──────────────────────────────────
+  const isInitialLoading = loading && products.length === 0
+  const isUpdating = loading && products.length > 0
+
   // ── Heading Label ───────────────────────────────────────────
   const activeCategoryObj = categories.find((c) => c.slug === selectedCategory)
   const headingLabel = search.trim()
@@ -211,12 +215,18 @@ function Products() {
           <div className="products-area-header mb-4">
             <div>
               <h4 className="products-heading mb-1">{headingLabel}</h4>
-              <p className="text-muted small mb-0">
-                {loading
+              <p className="text-muted small mb-0 d-flex align-items-center">
+                {isInitialLoading
                   ? 'Loading products...'
                   : total === 0
                   ? 'Showing 0 results'
                   : `Showing ${startResult}-${endResult} of ${total} results`}
+                {isUpdating && (
+                  <span className="ms-2 d-inline-flex align-items-center text-muted">
+                    <Spinner animation="border" size="sm" className="me-1" role="status" />
+                    Updating products...
+                  </span>
+                )}
               </p>
             </div>
 
@@ -239,8 +249,8 @@ function Products() {
             </div>
           </div>
 
-          {/* Loading state inside products area */}
-          {loading && (
+          {/* Initial loading state: only shown on first visit before any products exist */}
+          {isInitialLoading && (
             <div className="products-loading">
               <Spinner animation="border" variant="primary" role="status" />
               <p className="mt-3 text-muted">Loading products...</p>
@@ -262,7 +272,7 @@ function Products() {
             </Alert>
           )}
 
-          {/* Empty results state */}
+          {/* Empty results state: only shown when request finished with 0 results */}
           {!loading && !error && total === 0 && (
             <div className="products-empty-enhanced text-center py-4">
               <div className="no-results-icon-box mb-3">
@@ -345,10 +355,15 @@ function Products() {
             </div>
           )}
 
-          {/* Products grid */}
-          {!loading && !error && total > 0 && (
+          {/* Products grid: stays mounted during updates to prevent layout flicker */}
+          {!isInitialLoading && !error && total > 0 && (
             <>
-              <Row xs={1} sm={2} xl={3} className="g-4">
+              <Row
+                xs={1}
+                sm={2}
+                xl={3}
+                className={`g-4 ${isUpdating ? 'products-grid--updating' : ''}`}
+              >
                 {products.map((product) => (
                   <Col key={product.id}>
                     <ProductCard product={product} />
@@ -357,7 +372,7 @@ function Products() {
               </Row>
 
               {/* Pagination */}
-              <div className="mt-5 pb-2">
+              <div className={`mt-5 pb-2 ${isUpdating ? 'products-grid--updating' : ''}`}>
                 <ProductsPagination
                   currentPage={currentPage}
                   totalPages={totalPages}
