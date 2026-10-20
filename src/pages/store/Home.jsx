@@ -135,7 +135,7 @@ function Home() {
           {/* Left Large Column: Computing */}
           <Col xs={12} lg={6}>
             <Link
-              to="/products?search=laptop"
+              to="/products?category=laptops"
               className="bento-card bento-card-computing"
             >
               <img
@@ -155,7 +155,7 @@ function Home() {
             <Row className="g-3">
               <Col xs={12} sm={6}>
                 <Link
-                  to="/products?search=watch"
+                  to="/products?category=mens-watches"
                   className="bento-card bento-card-half"
                 >
                   <img
@@ -273,7 +273,7 @@ function Home() {
 
             {subscribed ? (
               <div className="alert alert-success d-inline-block py-2 px-3 mb-0">
-                ✓ Thank you for subscribing! Check your inbox soon.
+                ✓ Thanks! This is a demo subscription.
               </div>
             ) : (
               <form onSubmit={handleNewsletterSubmit} className="promo-form-wrapper">

@@ -56,7 +56,7 @@ function OrderConfirmation() {
           Order #{orderNumber} Confirmed
         </h2>
         <p className="confirmation-subtitle text-muted mb-0">
-          Woohoo! Your order has been placed successfully. We've prepared everything for {customerName}.
+          Demo order placed successfully for {customerName}. This is an educational simulation.
         </p>
       </div>
 
@@ -202,9 +202,10 @@ function OrderConfirmation() {
         <button
           type="button"
           className="btn btn-contact-support"
-          onClick={() => {}}
+          disabled
+          title="Contact support is not available in this demo"
         >
-          Contact Support
+          Contact Support (Demo)
         </button>
       </div>
     </Container>

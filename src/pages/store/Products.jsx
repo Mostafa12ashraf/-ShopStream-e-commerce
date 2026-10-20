@@ -7,187 +7,198 @@ import ProductsFilters from '../../components/ProductsFilters'
 import ProductsPagination from '../../components/ProductsPagination'
 import './Products.css'
 
-const PRODUCTS_PER_PAGE = 12
-
-// 4 Figma category groups mapped to real DummyJSON categories
-const categoryGroups = {
-  Electronics: [
-    'smartphones',
-    'laptops',
-    'tablets',
-    'mobile-accessories',
-  ],
-  Fashion: [
-    'mens-shirts',
-    'mens-shoes',
-    'mens-watches',
-    'womens-dresses',
-    'womens-shoes',
-    'womens-watches',
-    'womens-bags',
-    'womens-jewellery',
-    'tops',
-    'sunglasses',
-  ],
-  'Home & Living': [
-    'furniture',
-    'home-decoration',
-    'kitchen-accessories',
-    'groceries',
-  ],
-  Beauty: [
-    'beauty',
-    'fragrances',
-    'skin-care',
-  ],
-}
+const limit = 12
 
 function Products() {
   const [searchParams, setSearchParams] = useSearchParams()
 
   // ── Data state ──────────────────────────────────────────────
   const [products, setProducts] = useState([])
+  const [categories, setCategories] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
   const [retryCount, setRetryCount] = useState(0)
+  const [total, setTotal] = useState(0)
 
-  // ── Filter / search state ────────────────────────────────────
+  // ── Search & Filter state ────────────────────────────────────
   const search = searchParams.get('search') || ''
-  const [selectedCategory, setSelectedCategory] = useState('')
-  const [selectedBrand, setSelectedBrand] = useState('')
-  const [minimumRating, setMinimumRating] = useState(0)
-  const [maxPrice, setMaxPrice] = useState(1000)
-  const [priceLimit, setPriceLimit] = useState(1000)
+  const categoryFromUrl = searchParams.get('category') || ''
+  const [selectedCategory, setSelectedCategory] = useState(categoryFromUrl)
   const [sortOption, setSortOption] = useState('default')
+  const [sortBy, setSortBy] = useState('')
+  const [order, setOrder] = useState('')
   const [currentPage, setCurrentPage] = useState(1)
 
-  // ── Fetch products using DummyJSON search or category endpoints ──
+  // Sync category from URL if changed externally
+  const [prevCategoryParam, setPrevCategoryParam] = useState(categoryFromUrl)
+  if (categoryFromUrl !== prevCategoryParam) {
+    setPrevCategoryParam(categoryFromUrl)
+    setSelectedCategory(categoryFromUrl)
+    setCurrentPage(1)
+  }
+
+  // Reset page to 1 when search changes
+  const [prevSearch, setPrevSearch] = useState(search)
+  if (search !== prevSearch) {
+    setPrevSearch(search)
+    setCurrentPage(1)
+    if (search.trim()) {
+      setSelectedCategory('')
+    }
+  }
+
+  // ── 1. Fetch Categories once on mount ────────────────────────
   useEffect(() => {
+    let isMounted = true
+
+    async function getCategories() {
+      try {
+        const response = await axios.get('https://dummyjson.com/products/categories')
+        if (isMounted) {
+          const raw = response.data || []
+          const normalized = raw.map((cat) => {
+            if (typeof cat === 'object' && cat !== null) {
+              return {
+                slug: cat.slug || '',
+                name: cat.name || cat.slug || '',
+              }
+            }
+            return {
+              slug: String(cat),
+              name: String(cat).replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
+            }
+          })
+          setCategories(normalized)
+        }
+      } catch {
+        if (isMounted) {
+          setCategories([])
+        }
+      }
+    }
+
+    getCategories()
+
+    return () => {
+      isMounted = false
+    }
+  }, [])
+
+  // ── 2. Fetch Products with limit & skip pagination ───────────
+  useEffect(() => {
+    let isMounted = true
+
     async function getProducts() {
       setLoading(true)
       setError(null)
 
       try {
-        let fetchedList = []
+        const skip = (currentPage - 1) * limit
+        let endpoint = ''
 
         if (search.trim()) {
-          // Use DummyJSON search endpoint for search queries
-          const response = await axios.get(
-            `https://dummyjson.com/products/search?q=${encodeURIComponent(search.trim())}&limit=0`
-          )
-          fetchedList = response.data.products || []
-        } else if (selectedCategory && categoryGroups[selectedCategory]) {
-          // Use DummyJSON category endpoint when category is selected
-          const subcats = categoryGroups[selectedCategory]
-          const responses = await Promise.all(
-            subcats.map((cat) =>
-              axios.get(`https://dummyjson.com/products/category/${cat}?limit=0`)
-            )
-          )
-          fetchedList = responses.flatMap((res) => res.data.products || [])
+          endpoint = `https://dummyjson.com/products/search?q=${encodeURIComponent(
+            search.trim()
+          )}&limit=${limit}&skip=${skip}`
+        } else if (selectedCategory) {
+          endpoint = `https://dummyjson.com/products/category/${encodeURIComponent(
+            selectedCategory
+          )}&limit=${limit}&skip=${skip}`
         } else {
-          // Full catalog
-          const response = await axios.get('https://dummyjson.com/products?limit=0')
-          fetchedList = response.data.products || []
+          endpoint = `https://dummyjson.com/products?limit=${limit}&skip=${skip}`
         }
 
-        setProducts(fetchedList)
+        if (sortBy && order) {
+          endpoint += `&sortBy=${encodeURIComponent(sortBy)}&order=${encodeURIComponent(order)}`
+        }
 
-        // Set the price slider ceiling dynamically from the highest product price
-        if (fetchedList.length > 0) {
-          const highest = Math.max(...fetchedList.map((p) => p.price))
-          const roundedLimit = Math.ceil(highest / 100) * 100
-          setPriceLimit(roundedLimit)
-          setMaxPrice(roundedLimit)
+        const response = await axios.get(endpoint)
+
+        if (isMounted) {
+          setProducts(response.data.products || [])
+          setTotal(response.data.total || 0)
         }
       } catch (err) {
-        setError(err.message || 'Failed to load products. Please try again.')
+        if (isMounted) {
+          setError(err.message || 'Failed to load products. Please try again.')
+        }
       } finally {
-        setLoading(false)
+        if (isMounted) {
+          setLoading(false)
+        }
       }
     }
 
     getProducts()
-  }, [search, selectedCategory, retryCount])
 
-
-  // ── Derived: unique brands from API data ─────────────────────
-  const brands = [...new Set(products.map((p) => p.brand).filter(Boolean))].sort()
-
-  // ── Filtering pipeline ───────────────────────────────────────
-  let filtered = products
-
-  // 1. Search filter (title and description)
-  if (search.trim()) {
-    const q = search.trim().toLowerCase()
-    filtered = filtered.filter(
-      (p) =>
-        p.title.toLowerCase().includes(q) ||
-        (p.description && p.description.toLowerCase().includes(q))
-    )
-  }
-
-  // 2. Category group filter (matches against mapped subcategories)
-  if (selectedCategory && categoryGroups[selectedCategory]) {
-    const groupCategories = categoryGroups[selectedCategory]
-    filtered = filtered.filter((p) => groupCategories.includes(p.category))
-  }
-
-  // 3. Brand filter
-  if (selectedBrand) {
-    filtered = filtered.filter((p) => p.brand === selectedBrand)
-  }
-
-  // 4. Maximum price filter
-  if (maxPrice < priceLimit) {
-    filtered = filtered.filter((p) => p.price <= maxPrice)
-  }
-
-  // 5. Minimum rating filter
-  if (minimumRating > 0) {
-    filtered = filtered.filter((p) => p.rating >= minimumRating)
-  }
-
-  // ── Sorting (copy first to avoid mutating state) ─────────────
-  const sorted = [...filtered]
-  if (sortOption === 'price-asc') {
-    sorted.sort((a, b) => a.price - b.price)
-  } else if (sortOption === 'price-desc') {
-    sorted.sort((a, b) => b.price - a.price)
-  } else if (sortOption === 'rating-desc') {
-    sorted.sort((a, b) => b.rating - a.rating)
-  }
-
-  // ── Pagination calculation ───────────────────────────────────
-  const totalCount = sorted.length
-  const totalPages = Math.ceil(totalCount / PRODUCTS_PER_PAGE)
-  const safePage = Math.min(currentPage, Math.max(totalPages, 1))
-  const startResult = totalCount === 0 ? 0 : (safePage - 1) * PRODUCTS_PER_PAGE + 1
-  const endResult = Math.min(safePage * PRODUCTS_PER_PAGE, totalCount)
-  const paginated = sorted.slice(
-    (safePage - 1) * PRODUCTS_PER_PAGE,
-    safePage * PRODUCTS_PER_PAGE
-  )
-
-  // ── Handlers ─────────────────────────────────────────────────
-  function handleFilterChange(setter) {
-    return function (value) {
-      setter(value)
-      setCurrentPage(1)
+    return () => {
+      isMounted = false
     }
+  }, [search, selectedCategory, sortBy, order, currentPage, retryCount])
+
+  // ── Named Handlers ───────────────────────────────────────────
+  function handleCategoryChange(slug) {
+    const nextCategory = selectedCategory === slug ? '' : slug
+    setSelectedCategory(nextCategory)
+    setCurrentPage(1)
+    if (search) {
+      setSearchParams({})
+    }
+  }
+
+  function handleSortChange(value) {
+    setSortOption(value)
+    if (value === 'price-asc') {
+      setSortBy('price')
+      setOrder('asc')
+    } else if (value === 'price-desc') {
+      setSortBy('price')
+      setOrder('desc')
+    } else if (value === 'rating-desc') {
+      setSortBy('rating')
+      setOrder('desc')
+    } else if (value === 'title-asc') {
+      setSortBy('title')
+      setOrder('asc')
+    } else {
+      setSortBy('')
+      setOrder('')
+    }
+    setCurrentPage(1)
+  }
+
+  function handlePageChange(pageNumber) {
+    setCurrentPage(pageNumber)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
   function handleClearFilters() {
     setSearchParams({})
     setSelectedCategory('')
-    setSelectedBrand('')
-    setMinimumRating(0)
-    setMaxPrice(priceLimit)
     setSortOption('default')
+    setSortBy('')
+    setOrder('')
     setCurrentPage(1)
   }
 
-  // ── Loading state ─────────────────────────────────────────────
+  function handleRetry() {
+    setRetryCount((prev) => prev + 1)
+  }
+
+  // ── Calculations for Result Counter and Pagination ──────────
+  const totalPages = Math.ceil(total / limit)
+  const startResult = total === 0 ? 0 : (currentPage - 1) * limit + 1
+  const endResult = Math.min((currentPage - 1) * limit + products.length, total)
+
+  // ── Heading Label ───────────────────────────────────────────
+  const activeCategoryObj = categories.find((c) => c.slug === selectedCategory)
+  const headingLabel = search.trim()
+    ? `Search Results for "${search.trim()}"`
+    : activeCategoryObj
+    ? activeCategoryObj.name
+    : 'All Products'
+
+  // ── Loading state ───────────────────────────────────────────
   if (loading) {
     return (
       <div className="products-loading">
@@ -197,7 +208,7 @@ function Products() {
     )
   }
 
-  // ── Error state ───────────────────────────────────────────────
+  // ── Error state ─────────────────────────────────────────────
   if (error) {
     return (
       <Container className="py-5">
@@ -207,7 +218,7 @@ function Products() {
           <button
             type="button"
             className="btn btn-danger"
-            onClick={() => setRetryCount((c) => c + 1)}
+            onClick={handleRetry}
           >
             Retry
           </button>
@@ -216,40 +227,29 @@ function Products() {
     )
   }
 
-  // ── Heading label ────────────────────────────────────────────
-  const headingLabel = selectedCategory || 'All Products'
-
   return (
     <Container fluid="xl" className="products-page py-4">
       <Row className="g-4">
         {/* ── Sidebar Filters ── */}
         <Col xs={12} lg={3}>
           <ProductsFilters
-            categoryGroups={categoryGroups}
-            brands={brands}
+            categories={categories}
             selectedCategory={selectedCategory}
-            selectedBrand={selectedBrand}
-            maxPrice={maxPrice}
-            priceLimit={priceLimit}
-            minimumRating={minimumRating}
-            onCategoryChange={handleFilterChange(setSelectedCategory)}
-            onBrandChange={handleFilterChange(setSelectedBrand)}
-            onMaxPriceChange={handleFilterChange(setMaxPrice)}
-            onMinRatingChange={handleFilterChange(setMinimumRating)}
+            onCategoryChange={handleCategoryChange}
             onClearFilters={handleClearFilters}
           />
         </Col>
 
         {/* ── Products Content Area ── */}
         <Col xs={12} lg={9}>
-          {/* Header matching Figma: Category title, result summary, and sort */}
+          {/* Header: Category title, result summary, and sort */}
           <div className="products-area-header mb-4">
             <div>
               <h4 className="products-heading mb-1">{headingLabel}</h4>
               <p className="text-muted small mb-0">
-                {totalCount === 0
+                {total === 0
                   ? 'Showing 0 results'
-                  : `Showing ${startResult}-${endResult} of ${totalCount} results`}
+                  : `Showing ${startResult}-${endResult} of ${total} results`}
               </p>
             </div>
 
@@ -259,23 +259,21 @@ function Products() {
               </span>
               <Form.Select
                 value={sortOption}
-                onChange={(e) => {
-                  setSortOption(e.target.value)
-                  setCurrentPage(1)
-                }}
+                onChange={(e) => handleSortChange(e.target.value)}
                 className="sort-select"
                 aria-label="Sort products"
               >
-                <option value="default">Newest Arrivals</option>
+                <option value="default">Default</option>
                 <option value="price-asc">Price: Low to High</option>
                 <option value="price-desc">Price: High to Low</option>
                 <option value="rating-desc">Rating: High to Low</option>
+                <option value="title-asc">Title: A to Z</option>
               </Form.Select>
             </div>
           </div>
 
           {/* Empty results state */}
-          {totalCount === 0 && (
+          {total === 0 && (
             <div className="products-empty-enhanced text-center py-4">
               <div className="no-results-icon-box mb-3">
                 <span className="no-results-icon" aria-hidden="true">🔍</span>
@@ -287,7 +285,7 @@ function Products() {
                   : 'No products found'}
               </h4>
               <p className="text-muted small mb-4">
-                We couldn't find exactly what you were looking for.
+                We couldn't find what you were looking for. Try adjusting your search or filters.
               </p>
 
               {/* Assistance Cards */}
@@ -298,7 +296,7 @@ function Products() {
                     <ul className="empty-help-list mb-0">
                       <li>✓ Check your spelling for any typos.</li>
                       <li>✓ Try using more general keywords.</li>
-                      <li>✓ Use the filters to broaden your search.</li>
+                      <li>✓ Use the categories sidebar to broaden your search.</li>
                     </ul>
                   </div>
                 </Col>
@@ -312,40 +310,40 @@ function Products() {
                     <button
                       type="button"
                       className="btn btn-sm btn-success btn-chat-support w-100"
-                      onClick={() => {}}
+                      disabled
+                      title="Chat support is not available in this demo"
                     >
-                      💬 Start Live Chat
+                      💬 Start Live Chat (Demo only)
                     </button>
                   </div>
                 </Col>
               </Row>
 
               {/* Popular Categories */}
-              <div className="popular-categories-section mb-4">
-                <p className="text-muted small fw-bold mb-2">BROWSE POPULAR CATEGORIES</p>
-                <div className="d-flex flex-wrap justify-content-center gap-2">
-                  {Object.keys(categoryGroups).map((group) => (
+              {categories.length > 0 && (
+                <div className="popular-categories-section mb-4">
+                  <p className="text-muted small fw-bold mb-2">BROWSE POPULAR CATEGORIES</p>
+                  <div className="d-flex flex-wrap justify-content-center gap-2">
+                    {categories.slice(0, 6).map((cat) => (
+                      <button
+                        key={cat.slug}
+                        type="button"
+                        className="btn btn-sm btn-category-pill"
+                        onClick={() => handleCategoryChange(cat.slug)}
+                      >
+                        {cat.name}
+                      </button>
+                    ))}
                     <button
-                      key={group}
                       type="button"
                       className="btn btn-sm btn-category-pill"
-                      onClick={() => {
-                        handleFilterChange(setSelectedCategory)(group)
-                        setSearchParams({})
-                      }}
+                      onClick={handleClearFilters}
                     >
-                      {group}
+                      All Products
                     </button>
-                  ))}
-                  <button
-                    type="button"
-                    className="btn btn-sm btn-category-pill"
-                    onClick={handleClearFilters}
-                  >
-                    All Shop
-                  </button>
+                  </div>
                 </div>
-              </div>
+              )}
 
               <button
                 type="button"
@@ -358,10 +356,10 @@ function Products() {
           )}
 
           {/* Products grid */}
-          {totalCount > 0 && (
+          {total > 0 && (
             <>
               <Row xs={1} sm={2} xl={3} className="g-4">
-                {paginated.map((product) => (
+                {products.map((product) => (
                   <Col key={product.id}>
                     <ProductCard product={product} />
                   </Col>
@@ -371,9 +369,9 @@ function Products() {
               {/* Pagination */}
               <div className="mt-5 pb-2">
                 <ProductsPagination
-                  currentPage={safePage}
+                  currentPage={currentPage}
                   totalPages={totalPages}
-                  onPageChange={setCurrentPage}
+                  onPageChange={handlePageChange}
                 />
               </div>
             </>

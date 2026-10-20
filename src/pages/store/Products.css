@@ -44,6 +44,24 @@
   text-transform: uppercase;
 }
 
+.category-filter-list {
+  max-height: 360px;
+  overflow-y: auto;
+  padding-right: 0.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.category-filter-list::-webkit-scrollbar {
+  width: 5px;
+}
+
+.category-filter-list::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 4px;
+}
+
 .filter-option .form-check-label {
   font-size: 0.9rem;
   color: #374151;

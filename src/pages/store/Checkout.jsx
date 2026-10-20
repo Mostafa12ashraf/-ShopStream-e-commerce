@@ -58,9 +58,6 @@ function Checkout() {
   })
   const [cardErrors, setCardErrors] = useState({})
 
-  const [promoCode, setPromoCode] = useState('')
-  const [promoMessage, setPromoMessage] = useState('')
-
   // ── Cart Calculations ────────────────────────────────────────
   const subtotal = cartItems.reduce(
     (acc, item) => acc + item.price * item.quantity,
@@ -84,13 +81,6 @@ function Checkout() {
     setCardData((prev) => ({ ...prev, [name]: value }))
     if (cardErrors[name]) {
       setCardErrors((prev) => ({ ...prev, [name]: '' }))
-    }
-  }
-
-  function handleApplyPromo(e) {
-    e.preventDefault()
-    if (promoCode.trim()) {
-      setPromoMessage('Promo codes are not available in this demo.')
     }
   }
 
@@ -192,7 +182,7 @@ function Checkout() {
       <div className="checkout-header mb-4">
         <h2 className="checkout-title mb-1">Secure Checkout</h2>
         <p className="text-muted small mb-3">
-          Complete your order with ShopStream's verified protection.
+          Educational simulation — no real payment will be charged.
         </p>
 
         {/* Visual Progress Steps */}
@@ -498,27 +488,28 @@ function Checkout() {
                 <span className="summary-total-val">${total.toFixed(2)}</span>
               </div>
 
-              {/* Promo Code Input */}
+              {/* Promo Code Input (Educational Demo Only) */}
               <div className="promo-code-section mb-4">
                 <div className="input-group">
                   <Form.Control
                     type="text"
-                    placeholder="Promo Code"
-                    value={promoCode}
-                    onChange={(e) => setPromoCode(e.target.value)}
+                    placeholder="Promo Code (Demo only)"
+                    disabled
                     className="promo-input"
+                    aria-label="Promo code input disabled for demo"
                   />
                   <button
                     type="button"
-                    className="btn btn-outline-primary btn-apply-promo"
-                    onClick={handleApplyPromo}
+                    className="btn btn-outline-secondary btn-apply-promo"
+                    disabled
+                    title="Promo codes are not available in this demo"
                   >
                     Apply
                   </button>
                 </div>
-                {promoMessage && (
-                  <small className="text-muted mt-1 d-block">{promoMessage}</small>
-                )}
+                <small className="text-muted mt-1 d-block">
+                  Promo codes are not available in this educational demo.
+                </small>
               </div>
 
               {/* Security Guarantees */}

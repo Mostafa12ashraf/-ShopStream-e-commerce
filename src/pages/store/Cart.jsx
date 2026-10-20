@@ -44,12 +44,6 @@ function Cart() {
           <Link to="/products" className="btn btn-primary btn-start-shopping">
             Start Shopping
           </Link>
-          <button
-            type="button"
-            className="btn btn-outline-secondary btn-view-saved"
-          >
-            View Saved Items
-          </button>
         </div>
       </Container>
     )

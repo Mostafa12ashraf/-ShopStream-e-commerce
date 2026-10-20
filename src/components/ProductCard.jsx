@@ -17,11 +17,15 @@ function ProductCard({ product, variant = 'default' }) {
   const isNew = !hasDiscount && rating >= 4.8
   const isBestSeller = rating >= 4.5
 
+  // Check for out-of-stock condition
+  const isOutOfStock = product.stock === 0
+
   function handleAddToCart(e) {
     if (e) {
       e.preventDefault()
       e.stopPropagation()
     }
+    if (isOutOfStock) return
     dispatch(addToCart({ product, quantity: 1 }))
   }
 
@@ -62,10 +66,11 @@ function ProductCard({ product, variant = 'default' }) {
               type="button"
               className="btn-home-cart"
               onClick={handleAddToCart}
-              aria-label={`Add ${title} to cart`}
-              title="Add to cart"
+              disabled={isOutOfStock}
+              aria-label={isOutOfStock ? `${title} is out of stock` : `Add ${title} to cart`}
+              title={isOutOfStock ? 'Out of stock' : 'Add to cart'}
             >
-              🛒+
+              {isOutOfStock ? '✕' : '🛒+'}
             </button>
           </div>
         </Card.Body>
@@ -116,8 +121,10 @@ function ProductCard({ product, variant = 'default' }) {
             type="button"
             className="btn btn-primary btn-add"
             onClick={handleAddToCart}
+            disabled={isOutOfStock}
+            title={isOutOfStock ? 'Out of stock' : 'Add to cart'}
           >
-            🛒 Add
+            {isOutOfStock ? 'Out of Stock' : '🛒 Add'}
           </button>
         </div>
       </Card.Body>

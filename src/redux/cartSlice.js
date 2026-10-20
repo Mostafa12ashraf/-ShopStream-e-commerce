@@ -32,11 +32,19 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, action) => {
       const { product, quantity = 1 } = action.payload
+      if (!product) return
+
+      const maxStock =
+        typeof product.stock === 'number' ? product.stock : 99
+
+      // Do not add out-of-stock items
+      if (maxStock <= 0) return
+
+      const validQuantity = Math.max(1, Math.min(quantity, maxStock))
       const existing = state.items.find((item) => item.id === product.id)
-      const maxStock = product.stock || 99
 
       if (existing) {
-        existing.quantity = Math.min(existing.quantity + quantity, maxStock)
+        existing.quantity = Math.min(existing.quantity + validQuantity, maxStock)
       } else {
         state.items.push({
           id: product.id,
@@ -47,7 +55,7 @@ const cartSlice = createSlice({
           brand: product.brand || '',
           category: product.category || '',
           discountPercentage: product.discountPercentage || 0,
-          quantity: Math.min(quantity, maxStock),
+          quantity: validQuantity,
         })
       }
       saveCartToStorage(state.items)
@@ -57,7 +65,8 @@ const cartSlice = createSlice({
       const id = action.payload
       const item = state.items.find((i) => i.id === id)
       if (item) {
-        const maxStock = item.stock || 99
+        const maxStock =
+          typeof item.stock === 'number' ? item.stock : 99
         if (item.quantity < maxStock) {
           item.quantity += 1
           saveCartToStorage(state.items)
