@@ -436,3 +436,93 @@
   border-color: #047857;
   color: #ffffff;
 }
+
+/* ============================================================
+   HOME PAGE - DARK MODE
+   ============================================================ */
+[data-theme='dark'] .home-hero-section {
+  background: radial-gradient(circle at 85% 30%, rgba(67, 56, 202, 0.25) 0%, var(--surface) 70%);
+  border: 1px solid var(--border-color);
+}
+
+[data-theme='dark'] .home-hero-heading {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .home-hero-highlight {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .home-hero-subtext {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .btn-hero-outline {
+  background-color: transparent;
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .btn-hero-outline:hover {
+  background-color: var(--surface-soft);
+  border-color: var(--brand-hover);
+  color: var(--brand-hover);
+}
+
+[data-theme='dark'] .home-section-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .home-section-subtitle {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .home-see-all-link {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .home-see-all-link:hover {
+  color: var(--brand-hover);
+}
+
+[data-theme='dark'] .carousel-nav-btn {
+  background-color: var(--surface);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .carousel-nav-btn:hover {
+  background-color: var(--surface-soft);
+  border-color: var(--brand-primary);
+}
+
+[data-theme='dark'] .product-card--home {
+  background-color: var(--surface);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme='dark'] .product-title-home {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .product-title-home:hover {
+  color: var(--brand-primary) !important;
+}
+
+[data-theme='dark'] .product-category-tag {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .btn-home-cart {
+  background-color: var(--surface-soft);
+  border-color: var(--border-color);
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .btn-home-cart:hover {
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: #ffffff;
+}
+

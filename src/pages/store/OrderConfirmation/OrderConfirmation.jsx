@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Modal, Button } from 'react-bootstrap'
 import './OrderConfirmation.css'
 
 function OrderConfirmation() {
@@ -14,6 +14,8 @@ function OrderConfirmation() {
       return null
     }
   })
+
+  const [showSupportModal, setShowSupportModal] = useState(false)
 
   // If no order exists in localStorage
   if (!order) {
@@ -177,14 +179,12 @@ function OrderConfirmation() {
         <Link to="/products" className="btn btn-primary btn-continue-shopping">
           Continue Shopping
         </Link>
-        <button
-          type="button"
+        <Link
+          to="/profile#profile-order-history"
           className="btn btn-outline-secondary btn-order-history"
-          disabled
-          title="Order history is not implemented in this demo"
         >
           View Order History
-        </button>
+        </Link>
       </div>
 
       {/* ── Need Help Banner ── */}
@@ -202,12 +202,38 @@ function OrderConfirmation() {
         <button
           type="button"
           className="btn btn-contact-support"
-          disabled
-          title="Contact support is not available in this demo"
+          onClick={() => setShowSupportModal(true)}
+          title="Open demo support feedback"
         >
           Contact Support (Demo)
         </button>
       </div>
+
+      {/* ── Demo Support Modal ── */}
+      <Modal
+        show={showSupportModal}
+        onHide={() => setShowSupportModal(false)}
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title className="fs-5 fw-bold">Demo Support</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className="mb-2">
+            This is a frontend demonstration. Live support and support ticket submission are not connected to a real support service.
+          </p>
+          {orderNumber && (
+            <p className="small text-muted mb-0">
+              Reference Order: <strong>#{orderNumber}</strong>
+            </p>
+          )}
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowSupportModal(false)}>
+            Close
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Container>
   )
 }

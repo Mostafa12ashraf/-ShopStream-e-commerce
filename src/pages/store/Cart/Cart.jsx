@@ -1,17 +1,19 @@
+import { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Container, Row, Col } from 'react-bootstrap'
+import { Container, Row, Col, Modal, Button } from 'react-bootstrap'
 import {
   increaseQuantity,
   decreaseQuantity,
   removeFromCart,
-} from '../../redux/cartSlice'
-import CartItem from '../../components/CartItem'
+} from '../../../redux/cartSlice'
+import CartItem from '../../../components/store/CartItem'
 import './Cart.css'
 
 function Cart() {
   const dispatch = useDispatch()
   const cartItems = useSelector((state) => state.cart.items)
+  const [showSupportModal, setShowSupportModal] = useState(false)
 
   // Calculations
   const subtotal = cartItems.reduce(
@@ -78,10 +80,10 @@ function Cart() {
                 <button
                   type="button"
                   className="btn btn-sm btn-success btn-chat-support w-100"
-                  disabled
-                  title="Live chat support is not available in this educational demo"
+                  onClick={() => setShowSupportModal(true)}
+                  title="Open live support demo"
                 >
-                  💬 Live Chat (Unavailable)
+                  💬 Live Chat (Demo)
                 </button>
               </div>
             </Col>
@@ -108,6 +110,27 @@ function Cart() {
             </div>
           </div>
         </div>
+
+        {/* ── Demo Support Modal ── */}
+        <Modal
+          show={showSupportModal}
+          onHide={() => setShowSupportModal(false)}
+          centered
+        >
+          <Modal.Header closeButton>
+            <Modal.Title className="fs-5 fw-bold">Demo Support</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <p className="mb-0">
+              This is a frontend demonstration. Live support and support ticket submission are not connected to a real support service.
+            </p>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={() => setShowSupportModal(false)}>
+              Close
+            </Button>
+          </Modal.Footer>
+        </Modal>
       </Container>
     )
   }

@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { useNavigate } from 'react-router-dom'
 import { Container, Row, Col, Form } from 'react-bootstrap'
-import { clearCart } from '../../redux/cartSlice'
+import { clearCart } from '../../../redux/cartSlice'
 import './Checkout.css'
 
 // Helper: Calculate estimated delivery date 4 days ahead
@@ -32,12 +32,14 @@ function Checkout() {
   const dispatch = useDispatch()
   const cartItems = useSelector((state) => state.cart.items)
 
-  // Redirect to cart if empty
+  const [orderPlaced, setOrderPlaced] = useState(false)
+
+  // Redirect to cart if empty (only if an order has not just been placed)
   useEffect(() => {
-    if (cartItems.length === 0) {
+    if (cartItems.length === 0 && !orderPlaced) {
       navigate('/cart')
     }
-  }, [cartItems.length, navigate])
+  }, [cartItems.length, orderPlaced, navigate])
 
   // ── Form State ───────────────────────────────────────────────
   const [shippingData, setShippingData] = useState({
@@ -170,11 +172,12 @@ function Checkout() {
       // Ignore storage error
     }
 
+    setOrderPlaced(true)
     dispatch(clearCart())
-    navigate('/order-confirmation')
+    navigate('/order-confirmation', { replace: true })
   }
 
-  if (cartItems.length === 0) return null
+  if (cartItems.length === 0 && !orderPlaced) return null
 
   return (
     <Container fluid="xl" className="checkout-page py-4">

@@ -181,9 +181,22 @@
   transition: background-color 0.15s, border-color 0.15s;
 }
 
-.btn-auth-social:hover {
+.btn-auth-social:hover:not(:disabled) {
   background-color: #f8fafc;
   border-color: #94a3b8;
+}
+
+.btn-auth-social:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  background-color: #f8fafc;
+}
+
+.auth-disabled-link {
+  color: #94a3b8;
+  font-size: 0.825rem;
+  cursor: not-allowed;
+  user-select: none;
 }
 
 /* Footer Link */
@@ -213,3 +226,95 @@
   padding: 0.75rem 1rem;
   margin-bottom: 1.25rem;
 }
+
+/* ============================================================
+   AUTH PAGES - DARK MODE
+   ============================================================ */
+[data-theme='dark'] .auth-page-container {
+  background: radial-gradient(circle at 50% 15%, rgba(67, 56, 202, 0.15) 0%, var(--app-bg) 70%);
+}
+
+[data-theme='dark'] .auth-card-figma {
+  background-color: var(--surface);
+  border-color: var(--border-color);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5);
+}
+
+[data-theme='dark'] .auth-header-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .auth-header-subtitle {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .auth-field-label {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .auth-forgot-link {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .auth-control-with-icon {
+  background-color: var(--input-bg);
+  border-color: var(--border-color) !important;
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .auth-control-with-icon:focus {
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2) !important;
+}
+
+[data-theme='dark'] .auth-toggle-pwd-btn {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .auth-toggle-pwd-btn:hover {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .auth-divider {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .auth-divider::before,
+[data-theme='dark'] .auth-divider::after {
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .btn-auth-social {
+  background-color: var(--surface-soft);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .btn-auth-social:hover:not(:disabled) {
+  background-color: var(--surface-muted);
+  border-color: var(--brand-primary);
+}
+
+[data-theme='dark'] .btn-auth-social:disabled {
+  background-color: var(--surface-soft);
+  opacity: 0.5;
+}
+
+[data-theme='dark'] .auth-bottom-switch {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .auth-switch-link {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .demo-credentials-pill {
+  background-color: var(--surface-soft);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .demo-credentials-pill strong {
+  color: var(--text-primary);
+}
+

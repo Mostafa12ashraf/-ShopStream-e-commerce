@@ -2,10 +2,49 @@
    Global styles & shared Store UI (Navbar + Footer)
    ============================================================ */
 
+:root {
+  --app-bg: #f8fafc;
+  --surface: #ffffff;
+  --surface-soft: #f8fafc;
+  --surface-muted: #f1f5f9;
+  --border-color: #e2e8f0;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --brand-primary: #4338ca;
+  --brand-hover: #3730a3;
+  --input-bg: #ffffff;
+  --shadow-color: rgba(15, 23, 42, 0.08);
+  --primary: #4338ca;
+  --primary-hover: #3730a3;
+  --success: #059669;
+  --danger: #dc2626;
+  --warning: #d97706;
+}
+
+[data-theme='dark'] {
+  --app-bg: #0f172a;
+  --surface: #111827;
+  --surface-soft: #172033;
+  --surface-muted: #1e293b;
+  --border-color: #334155;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --brand-primary: #818cf8;
+  --brand-hover: #a5b4fc;
+  --input-bg: #172033;
+  --shadow-color: rgba(0, 0, 0, 0.35);
+  --primary: #818cf8;
+  --primary-hover: #6366f1;
+  --success: #34d399;
+  --danger: #f87171;
+  --warning: #fbbf24;
+}
+
 /* ---------- Page background ---------- */
 body {
-  background-color: #f8fafc;
-  color: #111827;
+  background-color: var(--app-bg);
+  color: var(--text-primary);
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 /* ---------- Store Layout Full-Height Wrapper ---------- */
@@ -16,7 +55,7 @@ body {
 }
 
 .store-main {
-  flex: 1;
+  flex: 1 0 auto;
 }
 
 /* ---------- Figma Desktop Frame Layout ---------- */
@@ -236,7 +275,7 @@ body {
 .store-footer {
   background-color: #eef2f6;
   border-top: 1px solid #e2e8f0;
-  margin-top: 4rem;
+  margin-top: auto;
 }
 
 .store-footer__brand {
@@ -300,7 +339,7 @@ body {
 .store-footer--home {
   background-color: #f1f5f9;
   border-top: 1px solid #e2e8f0;
-  margin-top: 5rem;
+  margin-top: auto;
 }
 
 .footer-col-title {
@@ -358,4 +397,286 @@ body {
   border-radius: 6px;
   border: 1px solid #cbd5e1;
 }
+
+/* ============================================================
+   THEME TOGGLE CONTROLS (Store & Dashboard)
+   ============================================================ */
+.store-theme-toggle-btn {
+  background: none;
+  border: 1px solid #cbd5e1;
+  color: #374151;
+  font-size: 1rem;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+  line-height: 1;
+  padding: 0;
+}
+
+.store-theme-toggle-btn:hover {
+  background-color: #f1f5f9;
+  border-color: #4338ca;
+  transform: scale(1.05);
+}
+
+.store-theme-toggle-btn:active {
+  transform: scale(0.95);
+}
+
+.dashboard-theme-toggle-btn {
+  background: none;
+  border: 1px solid #cbd5e1;
+  color: #475569;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  line-height: 1;
+  padding: 0;
+}
+
+.dashboard-theme-toggle-btn:hover {
+  background-color: #f1f5f9;
+  border-color: #4338ca;
+  color: #0f172a;
+}
+
+/* ============================================================
+   SHARED DARK MODE STYLES & BOOTSTRAP OVERRIDES
+   ============================================================ */
+[data-theme='dark'] .store-navbar {
+  background-color: var(--surface) !important;
+  border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme='dark'] .store-brand {
+  color: var(--brand-primary) !important;
+}
+
+[data-theme='dark'] .store-navbar .nav-link {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme='dark'] .store-navbar .nav-link:hover,
+[data-theme='dark'] .store-navbar .nav-link.active {
+  color: var(--brand-primary) !important;
+}
+
+[data-theme='dark'] .store-navbar .nav-link.active::after {
+  background-color: var(--brand-primary);
+}
+
+[data-theme='dark'] .store-search-input {
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .store-search-input:focus {
+  border-color: var(--brand-primary);
+  background-color: var(--surface-soft);
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.2);
+}
+
+[data-theme='dark'] .store-icon-link {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .store-icon-link:hover {
+  color: var(--brand-primary);
+  background-color: var(--surface-muted);
+}
+
+[data-theme='dark'] .store-user-chip {
+  background-color: var(--surface-muted);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .store-user-chip:hover {
+  background-color: var(--surface-soft);
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .store-theme-toggle-btn {
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .store-theme-toggle-btn:hover {
+  background-color: var(--surface-muted);
+  border-color: var(--brand-primary);
+}
+
+[data-theme='dark'] .dashboard-theme-toggle-btn {
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .dashboard-theme-toggle-btn:hover {
+  background-color: var(--surface-muted);
+  border-color: var(--brand-primary);
+}
+
+[data-theme='dark'] .store-footer,
+[data-theme='dark'] .store-footer--home {
+  background-color: var(--surface);
+  border-top: 1px solid var(--border-color);
+}
+
+[data-theme='dark'] .store-footer__brand {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .store-footer__copy {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .store-footer__links a,
+[data-theme='dark'] .footer-links-vertical a {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .store-footer__links a:hover,
+[data-theme='dark'] .footer-links-vertical a:hover {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .footer-col-title {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .store-footer__social-circle {
+  background-color: var(--surface-muted);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .store-footer__social-circle:hover {
+  background-color: var(--surface-soft);
+}
+
+[data-theme='dark'] .payment-card-badge {
+  background-color: var(--surface-muted);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+/* React Bootstrap Component Overrides in Dark Mode */
+[data-theme='dark'] .modal-content {
+  background-color: var(--surface);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .modal-header,
+[data-theme='dark'] .modal-footer {
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .form-control,
+[data-theme='dark'] .form-select {
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .form-control:focus,
+[data-theme='dark'] .form-select:focus {
+  background-color: var(--input-bg);
+  color: var(--text-primary);
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.25);
+}
+
+[data-theme='dark'] .form-control::placeholder {
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+[data-theme='dark'] .form-check-input {
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .form-check-input:checked {
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+}
+
+[data-theme='dark'] .form-check-label {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .btn-close {
+  filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+[data-theme='dark'] .table {
+  --bs-table-bg: transparent;
+  --bs-table-color: var(--text-primary);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .table th,
+[data-theme='dark'] .table td {
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .offcanvas {
+  background-color: var(--surface);
+  color: var(--text-primary);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .offcanvas-header {
+  border-bottom: 1px solid var(--border-color);
+}
+
+[data-theme='dark'] .dropdown-menu {
+  background-color: var(--surface);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .dropdown-item {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .dropdown-item:hover {
+  background-color: var(--surface-soft);
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .card {
+  background-color: var(--surface);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .text-dark {
+  color: var(--text-primary) !important;
+}
+
+[data-theme='dark'] .text-muted {
+  color: var(--text-secondary) !important;
+}
+
+[data-theme='dark'] hr {
+  border-color: var(--border-color);
+  opacity: 0.35;
+}
+
 

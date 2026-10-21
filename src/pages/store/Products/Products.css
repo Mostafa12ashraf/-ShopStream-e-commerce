@@ -571,3 +571,130 @@
     position: static;
   }
 }
+
+/* ============================================================
+   PRODUCTS PAGE - DARK MODE
+   ============================================================ */
+[data-theme='dark'] .filter-section {
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .filter-heading {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .filter-option .form-check-label {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .filter-option:hover .form-check-label {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .brand-filter-select {
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .btn-clear-filters {
+  background-color: var(--surface-soft);
+  border-color: var(--border-color);
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .btn-clear-filters:hover {
+  background-color: var(--surface-muted);
+  border-color: var(--brand-primary);
+}
+
+[data-theme='dark'] .products-heading {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .sort-select {
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .products-page .product-card {
+  background-color: var(--surface);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme='dark'] .products-page .product-card:hover {
+  border-color: var(--brand-primary);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+
+[data-theme='dark'] .products-page .product-img-link {
+  background-color: var(--surface-soft);
+  border-bottom-color: var(--border-color);
+}
+
+[data-theme='dark'] .products-page .product-img {
+  background-color: var(--surface-soft);
+}
+
+[data-theme='dark'] .products-page .product-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .products-page .product-title-link:hover .product-title {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .products-page .product-description {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .page-btn {
+  background-color: var(--surface);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .page-btn:hover:not(:disabled):not(.page-btn--active) {
+  background-color: var(--surface-soft);
+  border-color: var(--brand-primary);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .page-btn--active {
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: #ffffff;
+}
+
+[data-theme='dark'] .products-empty-enhanced {
+  background-color: var(--surface);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .no-results-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .empty-help-card {
+  background-color: var(--surface-soft);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .empty-help-list {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .btn-category-pill {
+  background-color: var(--surface-soft);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .btn-category-pill:hover {
+  background-color: var(--surface-muted);
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+}
+

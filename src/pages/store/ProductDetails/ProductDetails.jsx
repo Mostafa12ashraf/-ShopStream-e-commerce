@@ -3,8 +3,8 @@ import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap'
-import { addToCart } from '../../redux/cartSlice'
-import ProductCard from '../../components/ProductCard'
+import { addToCart } from '../../../redux/cartSlice'
+import ProductCard from '../../../components/store/ProductCard'
 import './ProductDetails.css'
 
 function ProductDetails() {

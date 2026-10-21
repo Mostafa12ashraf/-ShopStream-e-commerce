@@ -1,7 +1,9 @@
-import { useState, useEffect } from 'react'
+import { useContext } from 'react'
 import { NavLink, Link, useSearchParams, useNavigate, useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { Navbar, Nav, Container, Button } from 'react-bootstrap'
+import { AuthContext } from '../../context/AuthContext'
+import { ThemeContext } from '../../context/ThemeContext'
 
 function StoreNavbar() {
   const [searchParams, setSearchParams] = useSearchParams()
@@ -12,48 +14,14 @@ function StoreNavbar() {
   const cartItems = useSelector((state) => state.cart.items)
   const totalCartQuantity = cartItems.reduce((total, item) => total + item.quantity, 0)
 
-  // Helper to read active token and user
-  function getActiveToken() {
-    return localStorage.getItem('token') || sessionStorage.getItem('token') || ''
-  }
+  // Auth state and actions from shared AuthContext
+  const { isAuthenticated, user, logout } = useContext(AuthContext)
 
-  function getActiveUser() {
-    try {
-      const saved = localStorage.getItem('user') || sessionStorage.getItem('user')
-      return saved ? JSON.parse(saved) : null
-    } catch {
-      return null
-    }
-  }
-
-  // Auth state initialized directly from storage
-  const [isAuthenticated, setIsAuthenticated] = useState(() => Boolean(getActiveToken()))
-  const [user, setUser] = useState(() => getActiveUser())
-
-  // Sync auth state when storage or authChange event fires
-  useEffect(() => {
-    function handleAuthSync() {
-      setIsAuthenticated(Boolean(getActiveToken()))
-      setUser(getActiveUser())
-    }
-
-    window.addEventListener('storage', handleAuthSync)
-    window.addEventListener('authChange', handleAuthSync)
-
-    return () => {
-      window.removeEventListener('storage', handleAuthSync)
-      window.removeEventListener('authChange', handleAuthSync)
-    }
-  }, [])
+  // Shared Theme Context
+  const { theme, toggleTheme } = useContext(ThemeContext)
 
   function handleLogout() {
-    localStorage.removeItem('token')
-    localStorage.removeItem('user')
-    sessionStorage.removeItem('token')
-    sessionStorage.removeItem('user')
-    setIsAuthenticated(false)
-    setUser(null)
-    window.dispatchEvent(new Event('authChange'))
+    logout()
     navigate('/login')
   }
 
@@ -93,6 +61,9 @@ function StoreNavbar() {
             <Nav.Link as={Link} to="/products#categories">
               Categories
             </Nav.Link>
+            <Nav.Link as={NavLink} to="/dashboard">
+              Dashboard
+            </Nav.Link>
           </Nav>
 
           <div className="store-search-wrapper me-3">
@@ -108,6 +79,17 @@ function StoreNavbar() {
           </div>
 
           <div className="store-nav-icons">
+            {/* Theme Toggle Button */}
+            <button
+              type="button"
+              onClick={toggleTheme}
+              className="store-theme-toggle-btn me-1"
+              aria-label={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+              title={theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+            >
+              {theme === 'light' ? '🌙' : '☀️'}
+            </button>
+
             {/* Cart Icon Link */}
             <NavLink to="/cart" className="store-icon-link position-relative me-2" aria-label="Cart">
               🛒

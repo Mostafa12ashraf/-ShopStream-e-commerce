@@ -378,3 +378,246 @@
   color: #312e81;
   text-decoration: underline;
 }
+
+/* ---------- Profile Info Sections (Real Data) ---------- */
+.profile-section-card {
+  background: #ffffff;
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  padding: 1.75rem;
+}
+
+.profile-section-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.profile-info-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.25rem;
+}
+
+.profile-info-field {
+  display: flex;
+  flex-direction: column;
+}
+
+.profile-info-label {
+  font-size: 0.775rem;
+  font-weight: 700;
+  color: #64748b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.25rem;
+}
+
+.profile-info-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0f172a;
+  word-break: break-word;
+}
+
+.profile-avatar-fallback {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: #f1f5f9;
+  border: 3px solid #e2e8f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.25rem;
+  color: #64748b;
+}
+
+.btn-profile-primary:disabled,
+.btn-profile-outline:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.profile-nav-item--disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ---------- Edit Profile Modal ---------- */
+.profile-modal .modal-content {
+  border-radius: 18px;
+  border: 1px solid #e5e7eb;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  overflow: hidden;
+}
+
+.profile-modal .modal-header {
+  border-bottom: 1px solid #f1f5f9;
+  padding: 1.25rem 1.5rem;
+}
+
+.profile-modal .modal-footer {
+  border-top: 1px solid #f1f5f9;
+}
+
+/* ============================================================
+   PROFILE PAGE - DARK MODE
+   ============================================================ */
+[data-theme='dark'] .profile-sidebar-card,
+[data-theme='dark'] .profile-main-card,
+[data-theme='dark'] .profile-stat-card,
+[data-theme='dark'] .orders-card,
+[data-theme='dark'] .profile-section-card {
+  background-color: var(--surface);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme='dark'] .profile-sidebar-title,
+[data-theme='dark'] .profile-full-name,
+[data-theme='dark'] .stat-value,
+[data-theme='dark'] .orders-title,
+[data-theme='dark'] .order-item-title,
+[data-theme='dark'] .profile-section-title,
+[data-theme='dark'] .profile-info-value {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .profile-sidebar-subtitle,
+[data-theme='dark'] .profile-email-text,
+[data-theme='dark'] .stat-label,
+[data-theme='dark'] .order-item-sub,
+[data-theme='dark'] .profile-info-label {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .profile-nav-item {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .profile-nav-item:hover {
+  background-color: var(--surface-soft);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .profile-nav-divider {
+  background-color: var(--border-color);
+}
+
+[data-theme='dark'] .profile-avatar-circle {
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .profile-avatar-fallback {
+  background-color: var(--surface-soft);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .profile-edit-avatar-badge {
+  border-color: var(--surface);
+}
+
+[data-theme='dark'] .profile-member-badge-gray {
+  background-color: var(--surface-soft);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .btn-profile-outline {
+  background-color: var(--surface);
+  border-color: var(--border-color);
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .btn-profile-outline:hover {
+  background-color: var(--surface-soft);
+  border-color: var(--brand-primary);
+}
+
+[data-theme='dark'] .order-row-item {
+  border-bottom-color: var(--border-color);
+}
+
+[data-theme='dark'] .order-thumb-img {
+  background-color: var(--surface-soft);
+  border: 1px solid var(--border-color);
+}
+
+[data-theme='dark'] .order-item-price {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .order-badge-processing {
+  background-color: var(--surface-soft);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .order-action-link {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .order-action-link:hover {
+  color: var(--brand-hover);
+}
+
+[data-theme='dark'] .orders-view-all {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .stat-icon-purple {
+  background-color: var(--surface-soft);
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .stat-icon-green {
+  background-color: #064e3b;
+  color: #34d399;
+}
+
+[data-theme='dark'] .stat-icon-blue {
+  background-color: #1e3a8a;
+  color: #60a5fa;
+}
+
+[data-theme='dark'] .profile-modal .modal-content {
+  background-color: var(--surface);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .profile-modal .modal-header,
+[data-theme='dark'] .profile-modal .modal-footer {
+  border-color: var(--border-color);
+}
+
+/* ---------- Latest Local Order Internal Boxes (Light & Dark) ---------- */
+.profile-order-meta,
+.profile-order-summary {
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+}
+
+[data-theme='dark'] .profile-order-meta,
+[data-theme='dark'] .profile-order-summary {
+  background-color: var(--surface-soft);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .profile-order-meta .text-dark,
+[data-theme='dark'] .profile-order-summary .text-dark {
+  color: var(--text-primary) !important;
+}
+
+[data-theme='dark'] .profile-order-meta .text-muted,
+[data-theme='dark'] .profile-order-summary .text-muted {
+  color: var(--text-secondary) !important;
+}
+
+

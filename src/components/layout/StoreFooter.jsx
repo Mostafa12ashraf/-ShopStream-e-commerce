@@ -1,6 +1,8 @@
 import { Link, useLocation } from 'react-router-dom'
 import { Container, Row, Col } from 'react-bootstrap'
 
+const CURRENT_YEAR = new Date().getFullYear()
+
 function StoreFooter() {
   const location = useLocation()
   const isHomePage = location.pathname === '/'
@@ -62,7 +64,7 @@ function StoreFooter() {
           {/* Bottom Bar with Copyright & Payment Icons */}
           <div className="d-flex justify-content-between align-items-center py-3 flex-wrap gap-2">
             <p className="store-footer__copy mb-0">
-              © 2024 ShopStream Inc. All rights reserved.
+              © {CURRENT_YEAR} ShopStream Inc. All rights reserved.
             </p>
             <div className="footer-payment-icons d-flex gap-2">
               <span className="payment-card-badge" title="Visa">💳 Visa</span>
@@ -84,7 +86,7 @@ function StoreFooter() {
           <Col md={4}>
             <p className="store-footer__brand">ShopStream</p>
             <p className="store-footer__copy">
-              © 2024 ShopStream Inc. All rights reserved.
+              © {CURRENT_YEAR} ShopStream Inc. All rights reserved.
             </p>
           </Col>
 

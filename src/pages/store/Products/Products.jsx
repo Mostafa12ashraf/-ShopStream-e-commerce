@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import axios from 'axios'
 import { Container, Row, Col, Spinner, Alert, Form } from 'react-bootstrap'
-import ProductCard from '../../components/ProductCard'
-import ProductsFilters from '../../components/ProductsFilters'
-import ProductsPagination from '../../components/ProductsPagination'
+import ProductCard from '../../../components/store/ProductCard'
+import ProductsFilters from '../../../components/store/ProductsFilters'
+import ProductsPagination from '../../../components/store/ProductsPagination'
 import './Products.css'
 
 const limit = 12

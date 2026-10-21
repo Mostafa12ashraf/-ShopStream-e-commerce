@@ -258,3 +258,108 @@
   background-color: #044e3b;
   color: #ffffff;
 }
+
+/* ============================================================
+   ORDER CONFIRMATION - DARK MODE
+   ============================================================ */
+[data-theme='dark'] .confirmation-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .confirmation-subtitle {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .confirmation-card {
+  background-color: var(--surface);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme='dark'] .step-circle {
+  background-color: var(--surface-soft);
+  border-color: var(--border-color);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .step-name {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .progress-step--completed .step-circle {
+  background-color: var(--brand-primary);
+  border-color: var(--brand-primary);
+  color: #ffffff;
+}
+
+[data-theme='dark'] .progress-step--completed .step-name {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .progress-step--active .step-circle {
+  background-color: var(--surface-soft);
+  border-color: var(--brand-primary);
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .progress-step--active .step-name {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .progress-track {
+  background-color: var(--border-color);
+}
+
+[data-theme='dark'] .progress-track--active {
+  background-color: var(--brand-primary);
+}
+
+[data-theme='dark'] .section-subheading {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .address-text {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .ordered-item-row {
+  border-bottom-color: var(--border-color);
+}
+
+[data-theme='dark'] .ordered-item-thumb {
+  background-color: var(--surface-soft);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .ordered-item-name {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .ordered-item-price {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .btn-order-history {
+  background-color: var(--surface);
+  border-color: var(--border-color);
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .btn-order-history:hover:not(:disabled) {
+  background-color: var(--surface-soft);
+  border-color: var(--brand-primary);
+}
+
+[data-theme='dark'] .help-support-banner {
+  background-color: #064e3b;
+  border-color: #059669;
+}
+
+[data-theme='dark'] .help-banner-title {
+  color: #ffffff;
+}
+
+[data-theme='dark'] .help-banner-text {
+  color: #a7f3d0;
+}
+

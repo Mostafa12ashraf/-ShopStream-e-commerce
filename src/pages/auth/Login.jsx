@@ -1,11 +1,13 @@
-import { useState } from 'react'
+import { useState, useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { Form, Button, Alert, Spinner } from 'react-bootstrap'
+import { AuthContext } from '../../context/AuthContext'
 import './Auth.css'
 
 function Login() {
   const navigate = useNavigate()
+  const { login } = useContext(AuthContext)
 
   // Form states
   const [username, setUsername] = useState('')
@@ -44,21 +46,8 @@ function Login() {
       const token = response.data.accessToken || response.data.token
 
       if (token) {
-        // Persist session according to Remember Me setting
-        if (rememberMe) {
-          localStorage.setItem('token', token)
-          localStorage.setItem('user', JSON.stringify(response.data))
-        } else {
-          sessionStorage.setItem('token', token)
-          sessionStorage.setItem('user', JSON.stringify(response.data))
-          // Also set in localStorage so shared navbar detects it seamlessly
-          localStorage.setItem('token', token)
-          localStorage.setItem('user', JSON.stringify(response.data))
-        }
-
-        // Notify Navbar and other listeners
-        window.dispatchEvent(new Event('authChange'))
-
+        // Persist session strictly via AuthContext according to Remember Me setting
+        login(response.data, rememberMe)
         navigate('/profile')
       } else {
         setError('Login failed: Token not received from server.')
@@ -119,13 +108,13 @@ function Login() {
             </div>
           </Form.Group>
 
-          {/* Password with Forgot? link */}
+          {/* Password with Forgot? demo indicator */}
           <Form.Group className="mb-3" controlId="loginPassword">
             <div className="auth-field-label">
               <span>Password</span>
-              <Link to="#" onClick={(e) => e.preventDefault()} className="auth-forgot-link">
-                Forgot?
-              </Link>
+              <span className="auth-disabled-link" title="Password recovery is not available in this demo">
+                Forgot? (Demo)
+              </span>
             </div>
             <div className="auth-input-group">
               <span className="auth-input-icon" aria-hidden="true">🔒</span>
@@ -188,21 +177,23 @@ function Login() {
             <span>Or continue with</span>
           </div>
 
-          {/* Social login buttons */}
+          {/* Social login buttons (unsupported demo-only) */}
           <div className="auth-social-row">
             <button
               type="button"
               className="btn-auth-social"
-              onClick={() => {}}
+              disabled
+              title="Google sign-in is not available in this demo"
             >
-              <span>G</span> Google
+              <span>G</span> Google (Demo)
             </button>
             <button
               type="button"
               className="btn-auth-social"
-              onClick={() => {}}
+              disabled
+              title="Apple sign-in is not available in this demo"
             >
-              <span></span> Apple
+              <span></span> Apple (Demo)
             </button>
           </div>
         </Form>

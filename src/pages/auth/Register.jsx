@@ -67,7 +67,7 @@ function Register() {
         password,
       })
 
-      setSuccess('Account created successfully! Redirecting to login...')
+      setSuccess('Mock account submitted successfully. Continue to sign in with an existing DummyJSON account.')
       setTimeout(() => {
         navigate('/login')
       }, 1500)
@@ -205,15 +205,7 @@ function Register() {
               id="register-terms"
               label={
                 <span className="small text-secondary">
-                  I agree to the{' '}
-                  <span className="text-primary" style={{ cursor: 'pointer' }}>
-                    Terms of Service
-                  </span>{' '}
-                  and{' '}
-                  <span className="text-primary" style={{ cursor: 'pointer' }}>
-                    Privacy Policy
-                  </span>
-                  .
+                  I agree to the Terms of Service and Privacy Policy (Demo terms).
                 </span>
               }
               checked={agreeTerms}
@@ -250,21 +242,23 @@ function Register() {
             <span>Or register with</span>
           </div>
 
-          {/* Social login buttons */}
+          {/* Social login buttons (unsupported demo-only) */}
           <div className="auth-social-row">
             <button
               type="button"
               className="btn-auth-social"
-              onClick={() => {}}
+              disabled
+              title="Google sign-up is not available in this demo"
             >
-              <span>G</span> Google
+              <span>G</span> Google (Demo)
             </button>
             <button
               type="button"
               className="btn-auth-social"
-              onClick={() => {}}
+              disabled
+              title="Apple sign-up is not available in this demo"
             >
-              <span></span> Apple
+              <span></span> Apple (Demo)
             </button>
           </div>
         </Form>

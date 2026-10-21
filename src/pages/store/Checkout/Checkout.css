@@ -202,3 +202,90 @@
 .security-icon {
   font-size: 1rem;
 }
+
+/* ============================================================
+   CHECKOUT PAGE - DARK MODE
+   ============================================================ */
+[data-theme='dark'] .checkout-title {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .step-item {
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .step-num {
+  background-color: var(--surface-soft);
+  color: var(--text-secondary);
+}
+
+[data-theme='dark'] .step-divider {
+  background-color: var(--border-color);
+}
+
+[data-theme='dark'] .step-item--active .step-num {
+  background-color: var(--brand-primary);
+  color: #ffffff;
+}
+
+[data-theme='dark'] .step-item--active .step-label {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .checkout-card,
+[data-theme='dark'] .checkout-summary-card {
+  background-color: var(--surface);
+  border-color: var(--border-color);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+[data-theme='dark'] .payment-option-box {
+  background-color: var(--surface-soft);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .payment-option-box--selected {
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 1px var(--brand-primary);
+}
+
+[data-theme='dark'] .checkout-item-row {
+  border-bottom-color: var(--border-color);
+}
+
+[data-theme='dark'] .checkout-item-thumb {
+  background-color: var(--surface-soft);
+  border-color: var(--border-color);
+}
+
+[data-theme='dark'] .checkout-item-name {
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .checkout-item-price {
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .promo-input {
+  background-color: var(--input-bg);
+  border-color: var(--border-color);
+  color: var(--text-primary);
+}
+
+[data-theme='dark'] .btn-apply-promo {
+  background-color: var(--surface-soft);
+  border-color: var(--border-color);
+  color: var(--brand-primary);
+}
+
+[data-theme='dark'] .btn-apply-promo:hover {
+  background-color: var(--surface-muted);
+  border-color: var(--brand-primary);
+}
+
+[data-theme='dark'] .checkout-security-card {
+  background-color: #064e3b;
+  border-color: #059669;
+  color: #a7f3d0;
+}
+

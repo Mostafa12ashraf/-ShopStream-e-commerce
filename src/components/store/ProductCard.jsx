@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom'
 import { Card } from 'react-bootstrap'
 import { useDispatch } from 'react-redux'
-import { addToCart } from '../redux/cartSlice'
+import { addToCart } from '../../redux/cartSlice'
 
 function ProductCard({ product, variant = 'default' }) {
   const dispatch = useDispatch()

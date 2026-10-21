@@ -1,6 +1,6 @@
 import { Outlet } from 'react-router-dom'
-import StoreNavbar from '../components/StoreNavbar'
-import StoreFooter from '../components/StoreFooter'
+import StoreNavbar from '../components/layout/StoreNavbar'
+import StoreFooter from '../components/layout/StoreFooter'
 
 function StoreLayout() {
   return (

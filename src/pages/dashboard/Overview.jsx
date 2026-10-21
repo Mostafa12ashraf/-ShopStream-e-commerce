@@ -1,12 +1,7 @@
-import { Container } from 'react-bootstrap'
+import { Navigate } from 'react-router-dom'
 
 function Overview() {
-  return (
-    <Container className="py-4">
-      <h1>Dashboard Overview</h1>
-      <p className="text-muted">Placeholder – will be implemented in a later phase.</p>
-    </Container>
-  )
+  return <Navigate to="/dashboard/products" replace />
 }
 
 export default Overview

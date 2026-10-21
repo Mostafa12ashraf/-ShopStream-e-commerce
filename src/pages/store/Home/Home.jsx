@@ -2,14 +2,14 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import { Container, Row, Col, Spinner, Alert } from 'react-bootstrap'
-import ProductCard from '../../components/ProductCard'
+import ProductCard from '../../../components/store/ProductCard'
 
 // Asset imports
-import heroHeadphones from '../../assets/hero_headphones.jpg'
-import catComputing from '../../assets/cat_computing.jpg'
-import catWearables from '../../assets/cat_wearables.jpg'
-import catAudio from '../../assets/cat_audio.jpg'
-import catTheater from '../../assets/cat_theater.jpg'
+import heroHeadphones from '../../../assets/hero_headphones.jpg'
+import catComputing from '../../../assets/cat_computing.jpg'
+import catWearables from '../../../assets/cat_wearables.jpg'
+import catAudio from '../../../assets/cat_audio.jpg'
+import catTheater from '../../../assets/cat_theater.jpg'
 
 import './Home.css'
 
